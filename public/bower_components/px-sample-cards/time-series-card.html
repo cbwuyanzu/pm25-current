@@ -1,0 +1,205 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
+<link rel="import" href="../px-chart/px-chart.html" />
+<script type="text/javascript" src="../px/dist/px.min.js"></script>
+
+<dom-module id="time-series-card">
+    <template>
+        <px-card header-text="{{context.name}}">
+            <!--<button on-click="saveBtnClicked">Save</button>-->
+            <px-chart id="tsChart">
+                <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
+                <px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="anotherAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="thirdAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="fourthAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="fifthAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="sixthAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="seventhAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="eighthAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="ninthAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="tenthAxis" offset="0"></px-chart-yaxis>
+            </px-chart>
+        </px-card>
+    </template>
+</dom-module>
+<script>
+    Polymer({
+        is: 'time-series-card',
+        properties: {
+            config: {
+                type: Object
+            }
+        },
+        init: function() {
+            this.drawData();
+        },
+        drawData: function() {
+            var self = this;
+            /**
+             * use the card's getData API method to fetch data, then pass that data into our time series widget
+             * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
+             * In practice, this url will probably come through your context object.
+             *
+             * you can also use the px data transformer to convert from Predix TimeSeries data format to the expected timeseries data format
+             * e.g.
+             *
+             * var timeSeriesChartData = new px.timeseries.dataTransformer().transform(predixTimeSeriesData.tags);
+             *
+             * or with option
+             *
+             * var timeSeriesDataTransformer = new px.timeseries.dataTransformer({
+             *    //function to customize the series name return by data transformer
+             *    getSeriesName: function (tagname, groups) {
+             *             return tagname + "_timeseries_group_name";
+             *         }
+             * });
+             *
+             * var timeSeriesChartData = timeSeriesDataTransformer.transform(predixTimeSeriesData.tags);
+             *
+             * sample time series data return from time series service
+             */
+
+            var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
+
+            /**
+             * Data end point url can be passed from context property, therefore time seires card can display data data base on context object
+             * that is passed into time series card.
+             * */
+
+            this.getData('/api/inquiry-service/1141A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                firstSeries.id = firstSeries.name;
+                firstSeries.axisId = 'anotherAxis';
+                self.$.tsChart.addSeries(firstSeries);
+            });
+            this.getData('/api/inquiry-service/1142A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                secondSeries.id = secondSeries.name;
+                secondSeries.axisId = "firstAxis";
+                secondSeries.upperThreshold = "75";
+                secondSeries.lowerThreshold = "35";
+                self.$.tsChart.addSeries(secondSeries);
+            });
+            this.getData('/api/inquiry-service/1143A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var thirdSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                thirdSeries.id = thirdSeries.name;
+                thirdSeries.axisId = "thirdAxis";
+                self.$.tsChart.addSeries(thirdSeries);
+            });
+            this.getData('/api/inquiry-service/1144A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var fourthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                fourthSeries.id = fourthSeries.name;
+                fourthSeries.axisId = "fourthAxis";
+                self.$.tsChart.addSeries(fourthSeries);
+            });
+            this.getData('/api/inquiry-service/1145A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var fifthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                fifthSeries.id = fifthSeries.name;
+                fifthSeries.axisId = "fifthAxis";
+                self.$.tsChart.addSeries(fifthSeries);
+            });
+            this.getData('/api/inquiry-service/1146A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var sixthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                sixthSeries.id = sixthSeries.name;
+                sixthSeries.axisId = "sixthAxis";
+                self.$.tsChart.addSeries(sixthSeries);
+            });
+            this.getData('/api/inquiry-service/1147A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var seventhSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                seventhSeries.id = seventhSeries.name;
+                seventhSeries.axisId = "seventhAxis";
+                self.$.tsChart.addSeries(seventhSeries);
+            });
+            this.getData('/api/inquiry-service/1148A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var eighthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                eighthSeries.id = eighthSeries.name;
+                eighthSeries.axisId = "eighthAxis";
+                self.$.tsChart.addSeries(eighthSeries);
+            });
+            this.getData('/api/inquiry-service/1149A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var ninthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                ninthSeries.id = ninthSeries.name;
+                ninthSeries.axisId = "ninthAxis";
+                self.$.tsChart.addSeries(ninthSeries);
+            });
+            this.getData('/api/inquiry-service/1150A').then(function(predixTimeSeriesData) {
+                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                }
+                predixTimeSeriesData.tags[0].results[0].groups = [];
+                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                var tenthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                tenthSeries.id = tenthSeries.name;
+                tenthSeries.axisId = "tenthAxis";
+                self.$.tsChart.addSeries(tenthSeries);
+            });
+            /**
+             * on card initialization converts card config to chart widget's chartState property
+             */
+            if (this.config) {
+                this.$.tsChart.set('chartState', {
+                    chartZoom: self.config,
+                    srcElement: {}
+                });
+            }
+        },
+        contextChanged: function() {
+            this.drawData();
+        },
+        saveBtnClicked: function() {
+            /**
+             * retrieve widget state from chart widget and assign it to card's config property
+             * then execute save method which will turn all card's properties to card attribute object for saving back to view service
+             */
+            this.config = this.$.tsChart.chartState.chartZoom;
+            this.save();
+        },
+        behaviors: [px.card]
+    });
+</script>
