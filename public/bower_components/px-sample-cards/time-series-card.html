@@ -9,16 +9,16 @@
             <!--<button on-click="saveBtnClicked">Save</button>-->
             <px-chart id="tsChart">
                 <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
-                <px-chart-yaxis id="firstAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="anotherAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="thirdAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="fourthAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="fifthAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="sixthAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="seventhAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="eighthAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="ninthAxis" offset="0"></px-chart-yaxis>
-                <px-chart-yaxis id="tenthAxis" offset="0"></px-chart-yaxis>
+                <px-chart-yaxis id="firstAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="anotherAxis" opposite="true"></px-chart-yaxis>
+                <!-- <px-chart-yaxis id="thirdAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="fourthAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="fifthAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="sixthAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="seventhAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="eighthAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="ninthAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="tenthAxis" opposite="true"></px-chart-yaxis> -->
             </px-chart>
         </px-card>
     </template>
@@ -75,7 +75,9 @@
                 predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
                 var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
                 firstSeries.id = firstSeries.name;
-                firstSeries.axisId = 'anotherAxis';
+                firstSeries.axisId = 'firstAxis';
+                firstSeries.upperThreshold = "75";
+                firstSeries.lowerThreshold = "35";
                 self.$.tsChart.addSeries(firstSeries);
             });
             this.getData('/api/inquiry-service/1142A').then(function(predixTimeSeriesData) {
@@ -86,99 +88,97 @@
                 predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
                 var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
                 secondSeries.id = secondSeries.name;
-                secondSeries.axisId = "firstAxis";
-                secondSeries.upperThreshold = "75";
-                secondSeries.lowerThreshold = "35";
+                secondSeries.axisId = "anotherAxis";
                 self.$.tsChart.addSeries(secondSeries);
             });
-            this.getData('/api/inquiry-service/1143A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var thirdSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                thirdSeries.id = thirdSeries.name;
-                thirdSeries.axisId = "thirdAxis";
-                self.$.tsChart.addSeries(thirdSeries);
-            });
-            this.getData('/api/inquiry-service/1144A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var fourthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                fourthSeries.id = fourthSeries.name;
-                fourthSeries.axisId = "fourthAxis";
-                self.$.tsChart.addSeries(fourthSeries);
-            });
-            this.getData('/api/inquiry-service/1145A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var fifthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                fifthSeries.id = fifthSeries.name;
-                fifthSeries.axisId = "fifthAxis";
-                self.$.tsChart.addSeries(fifthSeries);
-            });
-            this.getData('/api/inquiry-service/1146A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var sixthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                sixthSeries.id = sixthSeries.name;
-                sixthSeries.axisId = "sixthAxis";
-                self.$.tsChart.addSeries(sixthSeries);
-            });
-            this.getData('/api/inquiry-service/1147A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var seventhSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                seventhSeries.id = seventhSeries.name;
-                seventhSeries.axisId = "seventhAxis";
-                self.$.tsChart.addSeries(seventhSeries);
-            });
-            this.getData('/api/inquiry-service/1148A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var eighthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                eighthSeries.id = eighthSeries.name;
-                eighthSeries.axisId = "eighthAxis";
-                self.$.tsChart.addSeries(eighthSeries);
-            });
-            this.getData('/api/inquiry-service/1149A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var ninthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                ninthSeries.id = ninthSeries.name;
-                ninthSeries.axisId = "ninthAxis";
-                self.$.tsChart.addSeries(ninthSeries);
-            });
-            this.getData('/api/inquiry-service/1150A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var tenthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                tenthSeries.id = tenthSeries.name;
-                tenthSeries.axisId = "tenthAxis";
-                self.$.tsChart.addSeries(tenthSeries);
-            });
+            // this.getData('/api/inquiry-service/1143A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var thirdSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     thirdSeries.id = thirdSeries.name;
+            //     thirdSeries.axisId = "thirdAxis";
+            //     self.$.tsChart.addSeries(thirdSeries);
+            // });
+            // this.getData('/api/inquiry-service/1144A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var fourthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     fourthSeries.id = fourthSeries.name;
+            //     fourthSeries.axisId = "fourthAxis";
+            //     self.$.tsChart.addSeries(fourthSeries);
+            // });
+            // this.getData('/api/inquiry-service/1145A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var fifthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     fifthSeries.id = fifthSeries.name;
+            //     fifthSeries.axisId = "fifthAxis";
+            //     self.$.tsChart.addSeries(fifthSeries);
+            // });
+            // this.getData('/api/inquiry-service/1146A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var sixthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     sixthSeries.id = sixthSeries.name;
+            //     sixthSeries.axisId = "sixthAxis";
+            //     self.$.tsChart.addSeries(sixthSeries);
+            // });
+            // this.getData('/api/inquiry-service/1147A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var seventhSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     seventhSeries.id = seventhSeries.name;
+            //     seventhSeries.axisId = "seventhAxis";
+            //     self.$.tsChart.addSeries(seventhSeries);
+            // });
+            // this.getData('/api/inquiry-service/1148A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var eighthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     eighthSeries.id = eighthSeries.name;
+            //     eighthSeries.axisId = "eighthAxis";
+            //     self.$.tsChart.addSeries(eighthSeries);
+            // });
+            // this.getData('/api/inquiry-service/1149A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var ninthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     ninthSeries.id = ninthSeries.name;
+            //     ninthSeries.axisId = "ninthAxis";
+            //     self.$.tsChart.addSeries(ninthSeries);
+            // });
+            // this.getData('/api/inquiry-service/1150A').then(function(predixTimeSeriesData) {
+            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+            //     }
+            //     predixTimeSeriesData.tags[0].results[0].groups = [];
+            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+            //     var tenthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+            //     tenthSeries.id = tenthSeries.name;
+            //     tenthSeries.axisId = "tenthAxis";
+            //     self.$.tsChart.addSeries(tenthSeries);
+            // });
             /**
              * on card initialization converts card config to chart widget's chartState property
              */
