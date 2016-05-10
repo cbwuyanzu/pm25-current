@@ -43,5 +43,6 @@ define(['angular', './sample-module'], function(angular, controllers) {
         };
         $scope.context = newcontext;
         $scope.context.urls = points;
+        $scope.context.url = '1141A';
     }]);
 });

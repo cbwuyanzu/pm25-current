@@ -8,13 +8,13 @@
         <px-card header-text="{{context.name}}">
             <div class="layout center">
                 <p class="layout__item">
-                    Choose another observation point:
+                    Choose an observation point:
                     <select value="{{context.url::change}}">
                         <template is="dom-repeat" items="{{context.urls}}">
                             <option value="{{item.url}}">{{item.name}}</option>
                         </template>
                     </select>
-                    <button class="btn btn--large btn--primary" on-click="drawData">Draw New Data</button>
+                    <button class="btn btn--large btn--primary" on-click="drawData2">Draw New Data</button>
                 </p>
             </div>
             <!--<button on-click="saveBtnClicked">Save</button>-->
@@ -22,14 +22,6 @@
                 <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
                 <px-chart-yaxis id="firstAxis" opposite="true"></px-chart-yaxis>
                 <px-chart-yaxis id="anotherAxis" opposite="true"></px-chart-yaxis>
-                <!-- <px-chart-yaxis id="thirdAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="fourthAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="fifthAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="sixthAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="seventhAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="eighthAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="ninthAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="tenthAxis" opposite="true"></px-chart-yaxis> -->
             </px-chart>
         </px-card>
     </template>
@@ -44,6 +36,7 @@
         },
         init: function() {
             this.drawData();
+            this.drawData2();
         },
         drawData: function() {
             var self = this;
@@ -92,6 +85,44 @@
                     self.$.tsChart.addSeries(firstSeries);
                 });
             }
+            /**
+             * on card initialization converts card config to chart widget's chartState property
+             */
+            if (this.config) {
+                this.$.tsChart.set('chartState', {
+                    chartZoom: self.config,
+                    srcElement: {}
+                });
+            }
+        },
+        drawData2: function() {
+            var self = this;
+            /**
+             * use the card's getData API method to fetch data, then pass that data into our time series widget
+             * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
+             * In practice, this url will probably come through your context object.
+             *
+             * you can also use the px data transformer to convert from Predix TimeSeries data format to the expected timeseries data format
+             * e.g.
+             *
+             * var timeSeriesChartData = new px.timeseries.dataTransformer().transform(predixTimeSeriesData.tags);
+             *
+             * or with option
+             *
+             * var timeSeriesDataTransformer = new px.timeseries.dataTransformer({
+             *    //function to customize the series name return by data transformer
+             *    getSeriesName: function (tagname, groups) {
+             *             return tagname + "_timeseries_group_name";
+             *         }
+             * });
+             *
+             * var timeSeriesChartData = timeSeriesDataTransformer.transform(predixTimeSeriesData.tags);
+             *
+             * sample time series data return from time series service
+             */
+
+            var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
+
             if (this.context.url) {
                 this.getData('/api/inquiry-service/' + this.context.url).then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
