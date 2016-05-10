@@ -6,6 +6,17 @@
 <dom-module id="time-series-card">
     <template>
         <px-card header-text="{{context.name}}">
+            <div class="layout center">
+                <p class="layout__item">
+                    Choose another observation point:
+                    <select value="{{context.url::change}}">
+                        <template is="dom-repeat" items="{{context.urls}}">
+                            <option value="{{item.url}}">{{item.name}}</option>
+                        </template>
+                    </select>
+                    <button class="btn btn--large btn--primary" on-click="drawData">Draw New Data</button>
+                </p>
+            </div>
             <!--<button on-click="saveBtnClicked">Save</button>-->
             <px-chart id="tsChart">
                 <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
@@ -66,119 +77,34 @@
              * Data end point url can be passed from context property, therefore time seires card can display data data base on context object
              * that is passed into time series card.
              * */
-
-            this.getData('/api/inquiry-service/1141A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                firstSeries.id = firstSeries.name;
-                firstSeries.axisId = 'firstAxis';
-                firstSeries.upperThreshold = "75";
-                firstSeries.lowerThreshold = "35";
-                self.$.tsChart.addSeries(firstSeries);
-            });
-            this.getData('/api/inquiry-service/1142A').then(function(predixTimeSeriesData) {
-                if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                    predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-                }
-                predixTimeSeriesData.tags[0].results[0].groups = [];
-                predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-                var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                secondSeries.id = secondSeries.name;
-                secondSeries.axisId = "anotherAxis";
-                self.$.tsChart.addSeries(secondSeries);
-            });
-            // this.getData('/api/inquiry-service/1143A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var thirdSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     thirdSeries.id = thirdSeries.name;
-            //     thirdSeries.axisId = "thirdAxis";
-            //     self.$.tsChart.addSeries(thirdSeries);
-            // });
-            // this.getData('/api/inquiry-service/1144A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var fourthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     fourthSeries.id = fourthSeries.name;
-            //     fourthSeries.axisId = "fourthAxis";
-            //     self.$.tsChart.addSeries(fourthSeries);
-            // });
-            // this.getData('/api/inquiry-service/1145A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var fifthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     fifthSeries.id = fifthSeries.name;
-            //     fifthSeries.axisId = "fifthAxis";
-            //     self.$.tsChart.addSeries(fifthSeries);
-            // });
-            // this.getData('/api/inquiry-service/1146A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var sixthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     sixthSeries.id = sixthSeries.name;
-            //     sixthSeries.axisId = "sixthAxis";
-            //     self.$.tsChart.addSeries(sixthSeries);
-            // });
-            // this.getData('/api/inquiry-service/1147A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var seventhSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     seventhSeries.id = seventhSeries.name;
-            //     seventhSeries.axisId = "seventhAxis";
-            //     self.$.tsChart.addSeries(seventhSeries);
-            // });
-            // this.getData('/api/inquiry-service/1148A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var eighthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     eighthSeries.id = eighthSeries.name;
-            //     eighthSeries.axisId = "eighthAxis";
-            //     self.$.tsChart.addSeries(eighthSeries);
-            // });
-            // this.getData('/api/inquiry-service/1149A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var ninthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     ninthSeries.id = ninthSeries.name;
-            //     ninthSeries.axisId = "ninthAxis";
-            //     self.$.tsChart.addSeries(ninthSeries);
-            // });
-            // this.getData('/api/inquiry-service/1150A').then(function(predixTimeSeriesData) {
-            //     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-            //         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
-            //     }
-            //     predixTimeSeriesData.tags[0].results[0].groups = [];
-            //     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
-            //     var tenthSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-            //     tenthSeries.id = tenthSeries.name;
-            //     tenthSeries.axisId = "tenthAxis";
-            //     self.$.tsChart.addSeries(tenthSeries);
-            // });
+            if (this.context.urls) {
+                this.getData('/api/inquiry-service/1146A').then(function(predixTimeSeriesData) {
+                    if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                        predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                    }
+                    predixTimeSeriesData.tags[0].results[0].groups = [];
+                    predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                    var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                    firstSeries.id = firstSeries.name;
+                    firstSeries.axisId = 'firstAxis';
+                    firstSeries.upperThreshold = "75";
+                    firstSeries.lowerThreshold = "35";
+                    self.$.tsChart.addSeries(firstSeries);
+                });
+            }
+            if (this.context.url) {
+                this.getData('/api/inquiry-service/' + this.context.url).then(function(predixTimeSeriesData) {
+                    if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                        predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                    }
+                    predixTimeSeriesData.tags[0].results[0].groups = [];
+                    predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                    var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                    secondSeries.id = secondSeries.name;
+                    secondSeries.axisId = "anotherAxis";
+                    self.$.tsChart.addSeries(secondSeries);
+                });
+            }
             /**
              * on card initialization converts card config to chart widget's chartState property
              */
