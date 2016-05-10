@@ -41,7 +41,6 @@ define(['angular', './sample-module'], function(angular, controllers) {
         var newcontext = {
             name: 'pm 2.5 in Shanghai'
         };
-        $scope.points = points;
         $scope.context = newcontext;
         $scope.context.urls = points;
     }]);
