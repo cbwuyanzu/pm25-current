@@ -29,6 +29,10 @@ var config = {
     '/api/inquiry-service(.*)': {
       url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/yearly_data/sensor_id$1',
       instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
+    },
+    '/api/datagrid-service(.*)': {
+      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services$1',
+      instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
     }
   }
 };

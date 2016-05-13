@@ -4,7 +4,6 @@ define(['angular', './sample-module'], function(angular, controllers) {
         var points = [{
             id: 0,
             name: '上海普陀',
-            url: '1141A'
         }, {
             id: 1,
             name: '上海十五厂',

@@ -1,169 +1,71 @@
-[
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-compressionratio",
-        "units": "psi",
-        "currentReading": "0.88"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-compressionratio",
-        "units": "psi",
-        "currentReading": "0.88"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-compressionratio",
-        "units": "psi",
-        "currentReading": "0.88"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-compressionratio",
-        "units": "psi",
-        "currentReading": "0.88"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-compressionratio",
-        "units": "psi",
-        "currentReading": "0.88"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    },        {
-    "lastOccurance": "2014-02-17, 19:33:51",
-    "assetPath": "/Unit1/HRSG",
-    "point": "39VS11",
-    "meter": "crank-frame-compressionratio",
-    "units": "psi",
-    "currentReading": "0.88"
-},
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-compressionratio",
-        "units": "psi",
-        "currentReading": "0.88"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-dischargepressure",
-        "units": "psi",
-        "currentReading": "2.605"
-    },
-    {
-        "lastOccurance": "2014-02-17, 19:33:51",
-        "assetPath": "/Unit1/HRSG",
-        "point": "39VS11",
-        "meter": "crank-frame-suctionpressure",
-        "units": "m/s",
-        "currentReading": "18.331"
-    }
-]
+[{
+    "Location": "上海普陀",
+    "Measurement": "98",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.263742929076",
+    "Longitude": "121.39844294375"
+}, {
+    "Location": "上海十五厂",
+    "Measurement": "116",
+    "Status": "mediumly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.249161710015",
+    "Longitude": "121.48789948569"
+}, {
+    "Location": "上海虹口",
+    "Measurement": "110",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.282497228987",
+    "Longitude": "121.49191854079"
+}, {
+    "Location": "上海徐汇上师大",
+    "Measurement": "106",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.169152089592",
+    "Longitude": "121.44623500473"
+}, {
+    "Location": "上海杨浦四漂",
+    "Measurement": "114",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.304510479542",
+    "Longitude": "121.53571659963"
+}, {
+    "Location": "上海青浦淀山湖",
+    "Measurement": "84",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.092683209524",
+    "Longitude": "120.93819229836"
+}, {
+    "Location": "上海静安监测站",
+    "Measurement": "110",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.235380803488",
+    "Longitude": "121.454755557"
+}, {
+    "Location": "上海浦东川沙",
+    "Measurement": "75",
+    "Status": "normal",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.202831",
+    "Longitude": "121.714004"
+}, {
+    "Location": "上海浦东新区监测站",
+    "Measurement": "119",
+    "Status": "mediumly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.230895349134",
+    "Longitude": "121.63848131409"
+}, {
+    "Location": "上海浦东张江",
+    "Measurement": "94",
+    "Status": "slightly polluted",
+    "UpdateTime": "2016-05-11 21:00:00",
+    "Latitude": "31.211248",
+    "Longitude": "121.621095"
+}]

@@ -21,7 +21,6 @@
             <px-chart id="tsChart">
                 <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
                 <px-chart-yaxis id="firstAxis" opposite="true"></px-chart-yaxis>
-                <px-chart-yaxis id="anotherAxis" opposite="true"></px-chart-yaxis>
             </px-chart>
         </px-card>
     </template>
@@ -36,7 +35,6 @@
         },
         init: function() {
             this.drawData();
-            this.drawData2();
         },
         drawData: function() {
             var self = this;
@@ -132,7 +130,7 @@
                     predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
                     var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
                     secondSeries.id = secondSeries.name;
-                    secondSeries.axisId = "anotherAxis";
+                    secondSeries.axisId = "firstAxis";
                     self.$.tsChart.addSeries(secondSeries);
                 });
             }
