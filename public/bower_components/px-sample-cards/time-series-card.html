@@ -69,7 +69,7 @@
              * that is passed into time series card.
              * */
             if (this.context.urls) {
-                this.getData('/api/inquiry-service/1146A').then(function(predixTimeSeriesData) {
+                this.getData('/api/inquiry-service/1146A'+'?starttime=1mm-ago').then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
@@ -122,7 +122,7 @@
             var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
 
             if (this.context.url) {
-                this.getData('/api/inquiry-service/' + this.context.url).then(function(predixTimeSeriesData) {
+                this.getData('/api/inquiry-service/' + this.context.url+'?starttime=1mm-ago').then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
