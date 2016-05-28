@@ -31,31 +31,19 @@
     }
   </style>
   <template>
-    <px-card header-text="Fetching Data">
-      <p>This temperature display control shows how your card can connect to an external data
-source. For example, with time series data, you can display data points from wherever your data is stored, which provides your application with real world value. See the instructions in the code comments for fetching data.</p>
-      <div class="layout center temperature-box">
-        <div class="layout__item">
-          <h1>Temperature : <span>{{currentTemperature}}</span><sup>o</sup> F</h1>
-        </div>
-      </div>
-      <div class="layout center">
+    <px-card header-text="PM 2.5 around GE">
+      <p>Here's the real-time data about pm2.5 around GE CTP. </p>
+      <div class="layout left">
         <p class="layout__item">
-          Choose a city:
-          <select value="{{context.url::change}}">
-            <template is="dom-repeat" items="{{context.urls}}">
-              <option value="{{item.url}}">{{item.name}}</option>
-            </template>
-          </select>
-          <p>{{a}}</p>
-          <button class="btn btn--large btn--primary" on-click="getTemperature">Get New Data</button>
+          <button class="btn btn--large btn--primary" on-click="getTemperature">Refresh Data</button>
         </p>
       </div>
-      <div class="temp-box-container">
-        <div class="more-info">
-          <h2>More on Fetching Data <a href="https://PredixDev.github.io/px-card/index.html" target="_blank">View APIs &amp; Documentation</a></h2>
+      <div class="layout center temperature-box">
+        <div class="layout__item">
+          <h2>CTP indoor : <span>{{currentTemperature}}</h2> <h2>CTP outdoor : <span>{{currentPm25Out}}</h2>
         </div>
       </div>
+
     </px-card>
   </template>
 </dom-module>
@@ -65,6 +53,7 @@ source. For example, with time series data, you can display data points from whe
     is: 'fetch-data-card',
     init: function() {
       this.getTemperature();
+      this.getOutdoor();
     },
     getTemperature: function() {
       /**
@@ -73,13 +62,29 @@ source. For example, with time series data, you can display data points from whe
       **/
       var self = this;
       // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-      this.getData(this.context.urls['weather-data']).then(function(data) {
+      this.getData('/api/lastest/61728').then(function(data) {
         // following data structure from http://api.wunderground.com/
-        self.currentTemperature = data['current_observation']['temp_f'];
+        self.currentTemperature = data.tags[0].results[0].values[0][1];
       }, function(reason) {
         // on rejection
         console.error('ERROR', reason);
         self.currentTemperature = 'error';
+      });
+    },
+    getOutdoor: function() {
+      /**
+      * use card's getData api to get the temperature data
+      * using the URL from context
+      **/
+      var self = this;
+      // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
+      this.getData('/api/lastest/61726').then(function(data) {
+        // following data structure from http://api.wunderground.com/
+        self.currentPm25Out = data.tags[0].results[0].values[0][1];
+      }, function(reason) {
+        // on rejection
+        console.error('ERROR', reason);
+        self.currentPm25Out = 'error';
       });
     },
     behaviors: [px.card]
