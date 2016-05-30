@@ -35,7 +35,7 @@
       <p>Here's the real-time data about pm2.5 around GE CTP. </p>
       <div class="layout left">
         <p class="layout__item">
-          <button class="btn btn--large btn--primary" on-click="getTemperature">Refresh Data</button>
+          <button class="btn btn--large btn--primary" on-click="refreshData">Refresh Data</button>
         </p>
       </div>
       <div class="layout center temperature-box">
@@ -55,6 +55,10 @@
       this.getTemperature();
       this.getOutdoor();
     },
+    refreshData: function(){
+      this.getTemperature();
+      this.getOutdoor();
+    },
     getTemperature: function() {
       /**
       * use card's getData api to get the temperature data
@@ -62,7 +66,7 @@
       **/
       var self = this;
       // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-      this.getData('/api/lastest/61728').then(function(data) {
+      this.getData('/api/lastest/61726').then(function(data) {
         // following data structure from http://api.wunderground.com/
         self.currentTemperature = data.tags[0].results[0].values[0][1];
       }, function(reason) {
@@ -78,7 +82,7 @@
       **/
       var self = this;
       // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-      this.getData('/api/lastest/61726').then(function(data) {
+      this.getData('/api/lastest/61728').then(function(data) {
         // following data structure from http://api.wunderground.com/
         self.currentPm25Out = data.tags[0].results[0].values[0][1];
       }, function(reason) {
