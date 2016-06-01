@@ -1,96 +1,112 @@
-<link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-card/px-card.html"/>
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
 
 <dom-module id="fetch-data-card">
-  <link rel="import" type="css" href="css/px-sample-cards.css" />
-  <style>
-    .temp--box {
-      border: 1px solid #d1d0d8;
-      padding: 0 20px 20px 20px;
-      margin: 10px;
-    }
-    .more-info {
-      padding: 0 10px;
-    }
-    .more-info h2 a {
-      font-size: 14px;
-      margin-left: 10px;
-    }
-    .temp-box-container {
-      width: 80%;
-      margin: 0 auto;
-    }
-    .center {
-      text-align: center;
-    }
-    .temperature-box button {
-      margin-bottom: 25px;
-    }
-    .temperature-box h1 {
-      font-size: 32px;
-    }
-  </style>
-  <template>
-    <px-card header-text="PM 2.5 around GE">
-      <p>Here's the real-time data about pm2.5 around GE CTP. </p>
-      <div class="layout left">
-        <p class="layout__item">
-          <button class="btn btn--large btn--primary" on-click="refreshData">Refresh Data</button>
-        </p>
-      </div>
-      <div class="layout center temperature-box">
-        <div class="layout__item">
-          <h2>CTP indoor : <span>{{currentTemperature}}</h2> <h2>CTP outdoor : <span>{{currentPm25Out}}</h2>
-        </div>
-      </div>
+    <link rel="import" type="css" href="css/px-sample-cards.css" />
+    <style>
+        .temp--box {
+            border: 1px solid #d1d0d8;
+            padding: 0 20px 20px 20px;
+            margin: 10px;
+        }
 
-    </px-card>
-  </template>
+        .more-info {
+            padding: 0 10px;
+        }
+
+        .more-info h2 a {
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .temp-box-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .temperature-box button {
+            margin-bottom: 25px;
+        }
+
+        .temperature-box h1 {
+            font-size: 32px;
+        }
+    </style>
+    <template>
+        <px-card header-text="PM 2.5 around GE">
+            <p>Here's the real-time data about pm2.5 around GE CTP. <button class="btn btn--large btn--primary" on-click="refreshData">Refresh Data</button></p>
+        </px-card>
+        <!-- <div class="layout center temperature-box">
+        <div class="layout__item">
+          <h2 class="summary-label caps">CTP indoor : <span>{{currentTemperature}}</h2> <h2>CTP outdoor : <span>{{currentPm25Out}}</h2>
+        </div>
+      </div> -->
+        <div class="layout layout--right">
+            <div class="layout__item u-1/6 summary-box" style="float:left">
+                <h4 class="summary-label caps">CTP indoor : </h4>
+                <div>
+                    <span class="summary-value">{{currentTemperature}}</span>
+                    <span class="summary-uom">μg/m<sup>3</sup></span>
+                </div>
+            </div>
+            <div class="layout__item u-1/6 summary-box" style="float:left">
+                <h4 class="summary-label caps">CTP outdoor : </h4>
+                <div>
+                    <span class="summary-value">{{currentPm25Out}}</span>
+                    <span class="summary-uom">μg/m<sup>3</sup></span>
+                </div>
+            </div>
+        </div>
+    </template>
 </dom-module>
 
 <script>
-  Polymer({
-    is: 'fetch-data-card',
-    init: function() {
-      this.getTemperature();
-      this.getOutdoor();
-    },
-    refreshData: function(){
-      this.getTemperature();
-      this.getOutdoor();
-    },
-    getTemperature: function() {
-      /**
-      * use card's getData api to get the temperature data
-      * using the URL from context
-      **/
-      var self = this;
-      // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-      this.getData('/api/lastest/61726').then(function(data) {
-        // following data structure from http://api.wunderground.com/
-        self.currentTemperature = data.tags[0].results[0].values[0][1];
-      }, function(reason) {
-        // on rejection
-        console.error('ERROR', reason);
-        self.currentTemperature = 'error';
-      });
-    },
-    getOutdoor: function() {
-      /**
-      * use card's getData api to get the temperature data
-      * using the URL from context
-      **/
-      var self = this;
-      // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-      this.getData('/api/lastest/61728').then(function(data) {
-        // following data structure from http://api.wunderground.com/
-        self.currentPm25Out = data.tags[0].results[0].values[0][1];
-      }, function(reason) {
-        // on rejection
-        console.error('ERROR', reason);
-        self.currentPm25Out = 'error';
-      });
-    },
-    behaviors: [px.card]
-  });
+    Polymer({
+        is: 'fetch-data-card',
+        init: function() {
+            this.getTemperature();
+            this.getOutdoor();
+        },
+        refreshData: function() {
+            this.getTemperature();
+            this.getOutdoor();
+        },
+        getTemperature: function() {
+            /**
+             * use card's getData api to get the temperature data
+             * using the URL from context
+             **/
+            var self = this;
+            // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
+            this.getData('/api/lastest/61726').then(function(data) {
+                // following data structure from http://api.wunderground.com/
+                self.currentTemperature = data.tags[0].results[0].values[0][1];
+            }, function(reason) {
+                // on rejection
+                console.error('ERROR', reason);
+                self.currentTemperature = 'error';
+            });
+        },
+        getOutdoor: function() {
+            /**
+             * use card's getData api to get the temperature data
+             * using the URL from context
+             **/
+            var self = this;
+            // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
+            this.getData('/api/lastest/61728').then(function(data) {
+                // following data structure from http://api.wunderground.com/
+                self.currentPm25Out = data.tags[0].results[0].values[0][1];
+            }, function(reason) {
+                // on rejection
+                console.error('ERROR', reason);
+                self.currentPm25Out = 'error';
+            });
+        },
+        behaviors: [px.card]
+    });
 </script>
