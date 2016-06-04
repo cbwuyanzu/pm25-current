@@ -32,21 +32,21 @@ define(['angular', 'angular-ui-router'], function(angular) {
             .state('dashboards', {
                 parent: 'secure',
                 url: '/dashboards',
-                templateUrl: 'views/chendaizong.html',
-                controller: 'Pm25Ctrl'
+                templateUrl: 'views/ge.html',
+                // controller: 'Pm25Ctrl'
             })
             .state('blankpage', {
                 url: '/blankpage',
                 templateUrl: 'views/blank-page.html'
             })
-            .state('blanksubpage', {
-                url: '/blanksubpage',
-                templateUrl: 'views/blank-sub-page.html'
-            })
-            .state('barChart', {
-                url: '/barChart',
-                templateUrl: 'views/barChart.html',
-                controller: 'PaientsCtrl'
+            // .state('blanksubpage', {
+            //     url: '/blanksubpage',
+            //     templateUrl: 'views/blank-sub-page.html'
+            // })
+            .state('shanghai', {
+                url: '/shanghai',
+                templateUrl: 'views/shanghai.html',
+                controller: 'Pm25Ctrl'
             });
 
 

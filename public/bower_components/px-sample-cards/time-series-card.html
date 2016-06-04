@@ -9,7 +9,7 @@
         <px-card header-text="{{context.name}}">
             <div class="layout center">
                 <p class="layout__item">
-                    Choose an observation point:
+                    <b>Choose an observation point:</b>
                     <select value="{{context.url::change}}">
                         <template is="dom-repeat" items="{{context.urls}}">
                             <option value="{{item.url}}">{{item.name}}</option>

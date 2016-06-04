@@ -38,7 +38,9 @@
     </style>
     <template>
         <px-card header-text="PM 2.5 around GE">
-            <p>Here's the real-time data about pm2.5 around GE CTP. <button class="btn btn--large btn--primary" on-click="refreshData">Refresh Data</button></p>
+            <div>
+                <button class="btn btn--large btn--primary" on-click="refreshData">Refresh Data</button>
+            </div>
         </px-card>
         <!-- <div class="layout center temperature-box">
         <div class="layout__item">
@@ -49,15 +51,39 @@
             <div class="layout__item u-1/6 summary-box" style="float:left">
                 <h4 class="summary-label caps">CTP indoor : </h4>
                 <div>
-                    <span class="summary-value">{{currentTemperature}}</span>
-                    <span class="summary-uom">μg/m<sup>3</sup></span>
+                    <span class="summary-value" style={{incolors}}>{{currentTemperature}}</span>
                 </div>
             </div>
             <div class="layout__item u-1/6 summary-box" style="float:left">
                 <h4 class="summary-label caps">CTP outdoor : </h4>
                 <div>
-                    <span class="summary-value">{{currentPm25Out}}</span>
-                    <span class="summary-uom">μg/m<sup>3</sup></span>
+                    <span class="summary-value" style={{outcolors}}>{{currentPm25Out}}</span>
+                </div>
+            </div>
+            <div style="margin: auto">
+                <div style="float:left">
+                    <div class="layout__item rmd-circle rmd-circle-green"></div>
+                    <div class="layout__item rmd-instruction">0-35</div>
+                </div>
+                <div style="float:left">
+                    <div class="layout__item rmd-circle rmd-circle-yellow"></div>
+                    <div class="layout__item rmd-instruction">36-75</div>
+                </div>
+                <div style="float:left">
+                    <div class="layout__item rmd-circle rmd-circle-orange"></div>
+                    <div class="layout__item rmd-instruction">76-115</div>
+                </div>
+                <div style="float:left">
+                    <div class="layout__item rmd-circle rmd-circle-red"></div>
+                    <div class="layout__item rmd-instruction">116-150</div>
+                </div>
+                <div style="float:left">
+                    <div class="layout__item rmd-circle rmd-circle-purple"></div>
+                    <div class="layout__item rmd-instruction">151-250</div>
+                </div>
+                <div style="float:left">
+                    <div class="layout__item rmd-circle rmd-circle-brown"></div>
+                    <div class="layout__item rmd-instruction">251-500</div>
                 </div>
             </div>
         </div>
@@ -85,10 +111,12 @@
             this.getData('/api/lastest/61726').then(function(data) {
                 // following data structure from http://api.wunderground.com/
                 self.currentTemperature = data.tags[0].results[0].values[0][1];
+                self.incolors = self.getColor(self.currentTemperature);
+                // self.heiheihei = "summary-value";
             }, function(reason) {
                 // on rejection
                 console.error('ERROR', reason);
-                self.currentTemperature = 'error';
+                self.currentTemperature = '--';
             });
         },
         getOutdoor: function() {
@@ -99,13 +127,27 @@
             var self = this;
             // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
             this.getData('/api/lastest/61728').then(function(data) {
-                // following data structure from http://api.wunderground.com/
+                // following data structure from  http://api.wunderground.com/
                 self.currentPm25Out = data.tags[0].results[0].values[0][1];
+                self.outcolors = self.getColor(self.currentPm25Out);
             }, function(reason) {
                 // on rejection
                 console.error('ERROR', reason);
-                self.currentPm25Out = 'error';
+                self.currentPm25Out = '--';
             });
+        },
+        getColor: function(value) {
+            if (value <= 35)
+                return "color:limegreen";
+            if (value <= 75)
+                return "color:yellow";
+            if (value <= 115)
+                return "color:orange";
+            if (value <= 150)
+                return "color:red";
+            if (value <= 250)
+                return "color:purple";
+            return "color:brown";
         },
         behaviors: [px.card]
     });
