@@ -33,7 +33,7 @@ define(['angular', 'angular-ui-router'], function(angular) {
                 parent: 'secure',
                 url: '/dashboards',
                 templateUrl: 'views/ge.html',
-                // controller: 'Pm25Ctrl'
+                controller: 'CTPCtrl'
             })
             .state('blankpage', {
                 url: '/blankpage',

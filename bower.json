@@ -41,7 +41,7 @@
     "inuit-functions": "^0.2.0",
     "px-functions-design": "https://github.com/PredixDev/px-functions-design.git#^0.3.2",
     "px-defaults-design": "https://github.com/PredixDev/px-defaults-design.git#^0.2.8",
-    "px-colors-design": "https://github.com/PredixDev/px-colors-design.git#^0.2.15"
+    "px-colors-design": "https://github.com/PredixDev/px-colors-design.git#^0.2.15",
   },
   "resolutions": {
     "es6-promise": "~v3.0.2",

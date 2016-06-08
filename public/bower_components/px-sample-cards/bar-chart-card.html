@@ -1,0 +1,152 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-card/px-card.html" />
+<link rel="import" href="../px-chart/px-chart.html" />
+<link rel="import" href="../iron-ajax/iron-ajax.html"/>
+<script type="text/javascript" src="../px/dist/px.min.js"></script>
+
+  <dom-module id="bar-chart-card">
+      <link rel="import" type="css" href="css/px-sample-cards.css" />
+      <template>
+          <px-card>
+          <h1>Bar series</h1>
+          <button class="btn btn--large btn--primary" on-click="drawData2">Add to the chart</button>
+          <px-chart type="bar" id="barChart">
+            <px-chart-yaxis id="firstAxis" opposite="true"></px-chart-yaxis>
+          </px-chart>
+        </px-card>
+      </template>
+  </dom-module>
+  <script>
+      Polymer({
+          is: 'bar-chart-card',
+          properties: {
+              config: {
+                  type: Object
+              }
+          },
+          init: function() {
+               this.drawData();
+               this.drawData2();
+          },
+          drawData: function() {
+              var self = this;
+              /**
+               * use the card's getData API method to fetch data, then pass that data into our time series widget
+               * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
+               * In practice, this url will probably come through your context object.
+               *
+               * you can also use the px data transformer to convert from Predix TimeSeries data format to the expected timeseries data format
+               * e.g.
+               *
+               * var timeSeriesChartData = new px.timeseries.dataTransformer().transform(predixTimeSeriesData.tags);
+               *
+               * or with option
+               *
+               * var timeSeriesDataTransformer = new px.timeseries.dataTransformer({
+               *    //function to customize the series name return by data transformer
+               *    getSeriesName: function (tagname, groups) {
+               *             return tagname + "_timeseries_group_name";
+               *         }
+               * });
+               *
+               * var timeSeriesChartData = timeSeriesDataTransformer.transform(predixTimeSeriesData.tags);
+               *
+               * sample time series data return from time series service
+               */
+
+               var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
+
+               /**
+                * Data end point url can be passed from context property, therefore time seires card can display data data base on context object
+                * that is passed into time series card.
+                * */
+               if (this.context.urls) {
+                   this.getData('/api/inquiry-weekly-service/61728'+'?starttime=15d-ago').then(function(predixTimeSeriesData) {
+                       if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                           predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                       }
+                       predixTimeSeriesData.tags[0].results[0].groups = [];
+                       predixTimeSeriesData.tags[0].name = 'CTP Outdoor';
+                       var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                       firstSeries.id = 'CTP Outdoor';
+                       firstSeries.axisId = 'firstAxis';
+                       firstSeries.upperThreshold = "75";
+                       firstSeries.lowerThreshold = "35";
+                       self.$.barChart.addSeries(firstSeries);
+                   });
+               }
+              /**
+               * on card initialization converts card config to chart widget's chartState property
+               */
+              if (this.config) {
+                  this.$.barChart.set('chartState', {
+                      chartZoom: self.config,
+                      srcElement: {}
+                  });
+              }
+          },
+          drawData2: function() {
+              var self = this;
+              /**
+               * use the card's getData API method to fetch data, then pass that data into our time series widget
+               * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
+               * In practice, this url will probably come through your context object.
+               *
+               * you can also use the px data transformer to convert from Predix TimeSeries data format to the expected timeseries data format
+               * e.g.
+               *
+               * var timeSeriesChartData = new px.timeseries.dataTransformer().transform(predixTimeSeriesData.tags);
+               *
+               * or with option
+               *
+               * var timeSeriesDataTransformer = new px.timeseries.dataTransformer({
+               *    //function to customize the series name return by data transformer
+               *    getSeriesName: function (tagname, groups) {
+               *             return tagname + "_timeseries_group_name";
+               *         }
+               * });
+               *
+               * var timeSeriesChartData = timeSeriesDataTransformer.transform(predixTimeSeriesData.tags);
+               *
+               * sample time series data return from time series service
+               */
+
+              var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
+
+              if (this.context.urls) {
+                  this.getData('/api/inquiry-weekly-service/61726'+'?starttime=15d-ago').then(function(predixTimeSeriesData) {
+                      if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
+                          predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                      }
+                      predixTimeSeriesData.tags[0].results[0].groups = [];
+                      predixTimeSeriesData.tags[0].name = 'CTP Indoor';
+                      var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
+                      secondSeries.id = 'CTP Indoor';
+                      secondSeries.axisId = "firstAxis";
+                      self.$.barChart.addSeries(secondSeries);
+                  });
+              }
+              /**
+               * on card initialization converts card config to chart widget's chartState property
+               */
+              if (this.config) {
+                  this.$.barChart.set('chartState', {
+                      chartZoom: self.config,
+                      srcElement: {}
+                  });
+              }
+          },
+          contextChanged: function() {
+              this.drawData();
+          },
+          saveBtnClicked: function() {
+              /**
+               * retrieve widget state from chart widget and assign it to card's config property
+               * then execute save method which will turn all card's properties to card attribute object for saving back to view service
+               */
+              this.config = this.$.barChart.chartState.chartZoom;
+              this.save();
+          },
+          behaviors: [px.card]
+      });
+  </script>
