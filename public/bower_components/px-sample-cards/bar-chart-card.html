@@ -11,7 +11,7 @@
         <px-card header-text="{{context.name}}">
             <button class="btn btn--large btn--primary" on-click="reDraw">Refresh Data</button>
             <px-chart type="bar" id="barChart">
-                <px-chart-yaxis id="firstAxis" opposite="true"></px-chart-yaxis>
+                <px-chart-yaxis id="firstAxis" opposite="true" min=-10></px-chart-yaxis>
             </px-chart>
         </px-card>
     </template>
@@ -63,7 +63,7 @@
              * that is passed into time series card.
              * */
             if (this.context.urls) {
-                this.getData(this.context.urls[1].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                this.getData(this.context.urls[1].url + this.context.starts[2].starttime).then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
@@ -72,9 +72,10 @@
                     var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
                     firstSeries.id = 'CTP Outdoor';
                     firstSeries.axisId = 'firstAxis';
+                    firstSeries.lineWidth = "20";
                     firstSeries.upperThreshold = "75";
                     firstSeries.lowerThreshold = "35";
-                    self.$.barChart.addSeries(firstSeries);
+                    self.$.barChart.addSeries(firstSeries,"true");
                 });
             }
             /**
@@ -114,7 +115,7 @@
              */
             var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
             if (this.context.urls) {
-                this.getData(this.context.urls[0].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                this.getData(this.context.urls[0].url + this.context.starts[3].starttime).then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }

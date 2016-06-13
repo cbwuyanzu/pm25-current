@@ -10,8 +10,8 @@
       </px-card>
         <px-card header-text="{{context.name1}}">
             <button class="btn btn--large btn--primary" on-click="reDraw">Refresh Data</button>
-            <px-chart type="bar" id="barChart">
-                <px-chart-yaxis id="firstAxis" opposite="true"></px-chart-yaxis>
+            <px-chart type="scatter" id="barChart">
+                <px-chart-yaxis id="firstAxis" opposite="true" min=-10></px-chart-yaxis>
             </px-chart>
         </px-card>
     </template>
@@ -114,7 +114,7 @@
              */
             var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
             if (this.context.urls) {
-                this.getData(this.context.urls[2].url + this.context.starts[0].starttime).then(function(predixTimeSeriesData) {
+                this.getData(this.context.urls[2].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
