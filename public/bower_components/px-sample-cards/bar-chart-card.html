@@ -14,7 +14,7 @@
                 <px-chart-yaxis id="firstAxis" opposite="true" min=-10></px-chart-yaxis>
                 <px-chart-series-bar id="CTP Outdoor" data="{{outdoorData}}" axis-id="firstAxis">
                 </px-chart-series-bar>
-                <px-chart-series-bar id="CPT Indoor" data="{{indoorData}}" axis-id="firstAxis">
+                <px-chart-series-bar id="CTP Indoor" data="{{indoorData}}" axis-id="firstAxis">
                 </px-chart-series-bar>
 
             </px-chart>
@@ -40,7 +40,7 @@
         drawData: function() {
             var self = this;
             if (this.context.urls) {
-                this.getData(this.context.urls[1].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                this.getData(this.context.urls[2].url + this.context.starts[0].starttime).then(function(predixTimeSeriesData) {
                     self.outdoorData = predixTimeSeriesData.tags[0].results[0].values;
                 });
             }
@@ -57,7 +57,7 @@
         drawData2: function() {
             var self = this;
             if (this.context.urls) {
-                this.getData(this.context.urls[0].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                this.getData(this.context.urls[3].url + this.context.starts[0].starttime).then(function(predixTimeSeriesData) {
                     self.indoorData = predixTimeSeriesData.tags[0].results[0].values;
                 });
             }
