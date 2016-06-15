@@ -4,7 +4,7 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html" />
 <script type="text/javascript" src="../px/dist/px.min.js"></script>
 
-<dom-module id="hour-bar-chart-card">
+<dom-module id="scatter-chart-card">
     <link rel="import" type="css" href="css/px-sample-cards.css" />
     <template>
       </px-card>
@@ -18,7 +18,7 @@
 </dom-module>
 <script>
     Polymer({
-        is: 'hour-bar-chart-card',
+        is: 'scatter-chart-card',
         properties: {
             config: {
                 type: Object
@@ -114,7 +114,7 @@
              */
             var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
             if (this.context.urls) {
-                this.getData(this.context.urls[2].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                this.getData(this.context.urls[2].url + this.context.starts[0].starttime).then(function(predixTimeSeriesData) {
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }

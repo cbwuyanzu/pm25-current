@@ -29,16 +29,8 @@ define(['angular', './sample-module'], function(angular, controllers) {
             starttime: '?starttime=1d-ago'
         },{
             id: 1,
-            name: '1d',
-            starttime: '?starttime=1d-ago'
-        }, {
-            id: 2,
             name: '7d',
-            starttime: '?starttime=167h-ago'
-        }, {
-            id: 3,
-            name: '7d',
-            starttime: '?starttime=166h-ago'
+            starttime: '?starttime=7d-ago'
         }];
         $scope.context = newcontext;
         $scope.context.urls = points;
