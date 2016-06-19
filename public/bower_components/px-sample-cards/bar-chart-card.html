@@ -3,7 +3,7 @@
 <link rel="import" href="../px-chart/px-chart.html" />
 <link rel="import" href="../iron-ajax/iron-ajax.html" />
 <script type="text/javascript" src="../px/dist/px.min.js"></script>
-
+<script src="../moment/min/moment.min.js"></script>
 <dom-module id="bar-chart-card">
     <link rel="import" type="css" href="css/px-sample-cards.css" />
     <template>
@@ -29,6 +29,10 @@
                 type: Object
             }
         },
+        toLocalTime: function(utcTime) {
+            var localtime = moment(utcTime).add(8, 'hours');
+            return localtime.valueOf();
+        },
         init: function() {
             this.drawData();
             this.drawData2();
@@ -40,7 +44,11 @@
         drawData: function() {
             var self = this;
             if (this.context.urls) {
+                // this.getData(this.context.urls[1].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
                 this.getData(this.context.urls[1].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                    for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
+                        predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
+                    }
                     self.outdoorData = predixTimeSeriesData.tags[0].results[0].values;
                 });
             }
@@ -57,7 +65,11 @@
         drawData2: function() {
             var self = this;
             if (this.context.urls) {
+                // this.getData(this.context.urls[0].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
                 this.getData(this.context.urls[0].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
+                    for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
+                        predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
+                    }
                     self.indoorData = predixTimeSeriesData.tags[0].results[0].values;
                 });
             }

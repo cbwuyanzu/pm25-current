@@ -2,7 +2,7 @@
 <link rel="import" href="../px-card/px-card.html" />
 <link rel="import" href="../px-chart/px-chart.html" />
 <script type="text/javascript" src="../px/dist/px.min.js"></script>
-
+<script src="../moment/min/moment.min.js"></script>
 <dom-module id="time-series-card">
     <link rel="import" type="css" href="css/px-sample-cards.css" />
     <template>
@@ -33,6 +33,10 @@
             config: {
                 type: Object
             }
+        },
+        toLocalTime: function(utcTime) {
+            var localtime = moment(utcTime).add(8, 'hours');
+            return localtime.valueOf();
         },
         init: function() {
             this.drawData();
@@ -71,6 +75,9 @@
              * */
             if (this.context.urls) {
                 this.getData('/api/inquiry-service/1146A' + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
+                    for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
+                        predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
+                    }
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
@@ -124,6 +131,9 @@
 
             if (this.context.url) {
                 this.getData('/api/inquiry-service/' + this.context.url + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
+                    for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
+                        predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
+                    }
                     if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }

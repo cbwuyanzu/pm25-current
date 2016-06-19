@@ -7,11 +7,15 @@
 <dom-module id="scatter-chart-card">
     <link rel="import" type="css" href="css/px-sample-cards.css" />
     <template>
-      </px-card>
+        </px-card>
         <px-card header-text="{{context.name1}}">
             <button class="btn btn--large btn--primary" on-click="reDraw">Refresh Data</button>
             <px-chart type="scatter" id="barChart">
                 <px-chart-yaxis id="firstAxis" opposite="true" min=-10></px-chart-yaxis>
+                <px-chart-series-scatter id="CTP Outdoor" data="{{outdoorData}}" axis-id="firstAxis">
+                </px-chart-series-scatter>
+                <px-chart-series-scatter id="CTP Indoor" data="{{indoorData}}" axis-id="firstAxis">
+                </px-chart-series-scatter>
             </px-chart>
         </px-card>
     </template>
@@ -24,6 +28,10 @@
                 type: Object
             }
         },
+        toLocalTime: function(utcTime) {
+            var localtime = moment(utcTime).add(8, 'hours');
+            return localtime.valueOf();
+        },
         init: function() {
             this.drawData();
             this.drawData2();
@@ -34,47 +42,13 @@
         },
         drawData: function() {
             var self = this;
-            /**
-             * use the card's getData API method to fetch data, then pass that data into our time series widget
-             * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
-             * In practice, this url will probably come through your context object.
-             *
-             * you can also use the px data transformer to convert from Predix TimeSeries data format to the expected timeseries data format
-             * e.g.
-             *
-             * var timeSeriesChartData = new px.timeseries.dataTransformer().transform(predixTimeSeriesData.tags);
-             *
-             * or with option
-             *
-             * var timeSeriesDataTransformer = new px.timeseries.dataTransformer({
-             *    //function to customize the series name return by data transformer
-             *    getSeriesName: function (tagname, groups) {
-             *             return tagname + "_timeseries_group_name";
-             *         }
-             * });
-             *
-             * var timeSeriesChartData = timeSeriesDataTransformer.transform(predixTimeSeriesData.tags);
-             *
-             * sample time series data return from time series service
-             */
-            var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
-            /**
-             * Data end point url can be passed from context property, therefore time seires card can display data data base on context object
-             * that is passed into time series card.
-             * */
             if (this.context.urls) {
+                // this.getData(this.context.urls[1].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
                 this.getData(this.context.urls[3].url + this.context.starts[0].starttime).then(function(predixTimeSeriesData) {
-                    if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                        predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                    for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
+                        predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
                     }
-                    predixTimeSeriesData.tags[0].results[0].groups = [];
-                    predixTimeSeriesData.tags[0].name = 'CTP Outdoor';
-                    var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                    firstSeries.id = 'CTP Outdoor';
-                    firstSeries.axisId = 'firstAxis';
-                    firstSeries.upperThreshold = "75";
-                    firstSeries.lowerThreshold = "35";
-                    self.$.barChart.addSeries(firstSeries);
+                    self.outdoorData = predixTimeSeriesData.tags[0].results[0].values;
                 });
             }
             /**
@@ -89,41 +63,13 @@
         },
         drawData2: function() {
             var self = this;
-            /**
-             * use the card's getData API method to fetch data, then pass that data into our time series widget
-             * e.g. this.getData('http://predix-time-series-service').then(function(predixTimeSeriesData) {
-             * In practice, this url will probably come through your context object.
-             *
-             * you can also use the px data transformer to convert from Predix TimeSeries data format to the expected timeseries data format
-             * e.g.
-             *
-             * var timeSeriesChartData = new px.timeseries.dataTransformer().transform(predixTimeSeriesData.tags);
-             *
-             * or with option
-             *
-             * var timeSeriesDataTransformer = new px.timeseries.dataTransformer({
-             *    //function to customize the series name return by data transformer
-             *    getSeriesName: function (tagname, groups) {
-             *             return tagname + "_timeseries_group_name";
-             *         }
-             * });
-             *
-             * var timeSeriesChartData = timeSeriesDataTransformer.transform(predixTimeSeriesData.tags);
-             *
-             * sample time series data return from time series service
-             */
-            var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
             if (this.context.urls) {
+                // this.getData(this.context.urls[0].url + this.context.starts[1].starttime).then(function(predixTimeSeriesData) {
                 this.getData(this.context.urls[2].url + this.context.starts[0].starttime).then(function(predixTimeSeriesData) {
-                    if (!predixTimeSeriesData.tags[0].results[0].datapoints) {
-                        predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
+                    for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
+                        predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
                     }
-                    predixTimeSeriesData.tags[0].results[0].groups = [];
-                    predixTimeSeriesData.tags[0].name = 'CTP Indoor';
-                    var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
-                    secondSeries.id = 'CTP Indoor';
-                    secondSeries.axisId = "firstAxis";
-                    self.$.barChart.addSeries(secondSeries);
+                    self.indoorData = predixTimeSeriesData.tags[0].results[0].values;
                 });
             }
             /**
