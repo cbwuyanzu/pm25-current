@@ -10,7 +10,7 @@
     <template>
         <px-card header-text="{{context.name}}">
             <button class="btn btn--large btn--primary" on-click="reDraw">Refresh Data</button>
-            <px-chart type="bar" id="barChart">
+            <px-chart type="bar" id="barChart" tooltip-kind="hc">
                 <px-chart-yaxis id="firstAxis" opposite="true" min=-10></px-chart-yaxis>
                 <px-chart-series-bar id="CTP Outdoor" data="{{outdoorData}}" axis-id="firstAxis">
                 </px-chart-series-bar>
