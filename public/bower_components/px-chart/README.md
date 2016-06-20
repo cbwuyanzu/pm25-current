@@ -94,7 +94,7 @@ Determines that what type of chart to display.  This type influences the series 
 This does NOT affect the type of the series displayed on the graph.  To change the type of series, change the ```<px-chart-series-*>``` web component to line, bar, histogram, etc.
 
 Can only be statically configured (not data-bindable).
-     
+
 Accepts values of 'line', 'scatter' or 'bar'.
 
 ```
@@ -192,7 +192,7 @@ Note that a default legend will be enabled but can set this as an override.
 
 Can only be statically configured (not data-bindable).
 ```
-<px-chart 
+<px-chart
 	...
 	legend='{
      "enabled": true,
@@ -312,6 +312,23 @@ Can only be statically configured (not data-bindable).
 	spacing-bottom="13">
 </px-chart>
 ```
+##### tooltipKind
+
+*Type:* **String** - (*Optional*) - *Default:* "px"
+
+Selects the kind of tooltip to display
+* px: default type with tooltip appearing in a row above the chart
+* hc: tooltip follows cursor
+
+See the charts demo (demo.html) for an example.
+
+Can only be statically configured (not data-bindable).
+```
+<px-chart
+	...
+	tooltip-type="condensed">
+</px-chart>
+```
 ##### tooltipType
 
 *Type:* **String** - (*Optional*) - *Default:* "normal"
@@ -325,6 +342,86 @@ Can only be statically configured (not data-bindable).
 <px-chart
 	...
 	tooltip-type="condensed">
+</px-chart>
+```
+##### tooltipOffset
+
+*Type:* **Number** - (*Optional*) - *Default:* 0
+
+Sets the pixel distance of the tooltip from the top of the chart plot area.
+
+If no value is supplied, a 40px for condensed and 60px for normal tooltips offset is applied.
+```
+<px-chart
+	...
+	tooltip-offset="20">
+</px-chart>
+```
+##### tooltipTimestamp
+
+*Type:* **String** - (*Optional*) - *Default:* 'show'
+
+Valid values are: 'show' & 'hide'
+
+Shows or hides the timestamp in the tooltip
+```
+<px-chart
+	...
+	tooltip-timestamp="hide">
+</px-chart>
+```
+##### tooltipTimeFormat
+
+*Type:* **String** - (*Optional*) - *Default:* 'HH:mm:ss ZZ'
+
+Configures how the time is displayed in the normal tooltip
+
+See http://momentjs.com/docs/#/parsing/string-format/ for String formats
+```
+<px-chart
+	...
+	tooltip-time-format="HH:mm:ss ZZ">
+</px-chart>
+```
+##### tooltipDateFormat
+
+*Type:* **String** - (*Optional*) - *Default:* 'MMM DD, YYYY'
+
+Configures how the date is displayed in the normal tooltip
+
+See http://momentjs.com/docs/#/parsing/string-format/ for String formats
+```
+<px-chart
+	...
+	tooltip-date-format="DD MMM YYYY">
+</px-chart>
+```
+##### tooltipDatetimeFormat
+
+*Type:* **String** - (*Optional*) - *Default:* 'HH:mm:ss ZZ | DD MMM YYYY'
+
+Configures how the time and date are displayed in the condensed tooltip
+
+See http://momentjs.com/docs/#/parsing/string-format/ for String formats
+```
+<px-chart
+	...
+	tooltip-datetime-format="HH:mm:ss - MM/DD/YY">
+</px-chart>
+```
+##### zoomControls
+
+*Type:* **String** - (*Optional*) - *Default:* "showcontrols"
+
+Valid values are: 'hidecontrols' & 'showcontrols'
+
+Specifies if zoom should open Predix custom overlay with controls or just run default zoom.
+Running default zoom allows for more zoomTypes as specified below.
+
+```
+<px-chart
+	...
+	zoom-controls="hidecontrols">
 </px-chart>
 ```
 ##### zoomType
@@ -583,9 +680,24 @@ Can only be statically configured (not data-bindable).
 </px-chart-series-line>
 ```
 
+##### units
+
+*Type:* **String** - (*Optional*) - *Default:* ''
+
+Set the units of the series. It can then be displayed in the chart tooltip
+
+Can only be statically configured (not data-bindable).
+
+```
+<px-chart-series-line
+	...
+	units="morgens">
+</px-chart-series-line>
+```
+
 ##### seriesObj
 
-*Type:* **Object** - (*Optional*) 
+*Type:* **Object** - (*Optional*)
 
 Optional object that contains members that map to #name and #data via the seriesObjDataKey and seriesObjNameKey,
 
@@ -628,7 +740,7 @@ Can only be statically configured (not data-bindable).
 ```
 ##### seriesObjNameKey
 
-*Type:* **String** - (*Optional*) - *Default:* "name" 
+*Type:* **String** - (*Optional*) - *Default:* "name"
 
 Key in the optional seriesObj to be used for #name
 
@@ -1112,3 +1224,5 @@ $ grunt devmode
 ## Known Issues
 
 Please use [Github Issues](https://github.com/PredixDev/px-chart/issues) to submit any bugs you might find.
+
+When using Predix zoom (zoom-controls = "showcontrols"), you cannot specify zoomType. Only 'x' zoomType is supported currently. If you other zoomTypes, set zoom-controls to 'hidecontrols'.

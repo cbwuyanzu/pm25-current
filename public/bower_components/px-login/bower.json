@@ -1,6 +1,6 @@
 {
   "name": "px-login",
-  "version": "0.1.5",
+  "version": "0.3.3",
   "main": [
     "px-login.html"
   ],
@@ -11,11 +11,12 @@
     "sass",
     "bower_components",
     "node_modules",
-    "test"
+    "test",
+    "OSS_Notice.pdf"
   ],
   "dependencies": {
-    "polymer": "~v1.2.3",
-    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.6.5",
+    "polymer": "~v1.4.0",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~v0.7.0",
     "es6-promise": "https://github.com/jakearchibald/es6-promise.git#2.3.0"
   },
   "devDependencies": {

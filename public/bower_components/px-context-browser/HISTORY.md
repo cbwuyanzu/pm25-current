@@ -1,3 +1,35 @@
+v0.9.7
+====================
+* Merged PR which fixed lazy loading spinner bug
+
+v0.9.5
+====================
+* removed unnecessary check on breadcrumbs 
+
+v0.9.5
+====================
+* added oss_notice to bower ignore
+
+v0.9.4
+====================
+* added pull request test
+
+v0.9.3
+====================
+* added auto github pages functionality
+
+v0.9.2
+====================
+* fixed tests
+
+v0.9.1
+====================
+* fixed the breadcrumbs so they adhere to specs
+
+v0.9.0
+====================
+* Upgrade to Polymer 1.4.0
+
 v0.8.6
 ====================
 * cleaned up docs a bit, and cleaned up css class methods.

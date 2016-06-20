@@ -74,6 +74,7 @@ $scope.doSomethingWithSelectedRows = function() {
 };
 ```
 
+You may also want to prevent your data from auto-synching with your model. If so, we've written up a [little explanation] to help you with that.
 <br />
 <hr />
 
@@ -176,6 +177,37 @@ This property is read only.
 <px-data-table selected-rows="{{mySelectedItems}}" table-data="{{data}}"></px-data-table>
 ```
 
+##### showColumnChooser
+
+*Type:* **Boolean** - (*Optional*) - *Default:* false
+
+Use the show-column-chooser attribute if you want to display a drodpown above the top right of the table, allowing to select which columns should be shown and which columns should be hidden. List of columns of tbhe dropdown is following the order of columns in the table.
+
+```html
+<px-data-table show-column-chooser table-data="{{data}}"></px-data-table>
+```
+
+##### enableColumnReorder
+
+*Type:* **Boolean** - (*Optional*) - *Default:* false
+
+Use the enable-column-reorder attribute if you want to allow the user to drag and drop the column headers to reorder the column headers.
+
+```html
+<px-data-table enable-column-reorder table-data="{{data}}"></px-data-table>
+```
+
+##### enableColumnResize
+
+*Type:* **Boolean** - (*Optional*) - *Default:* false
+
+Use the enable-column-resize attribute if you want to allow the user to resize the column headers by clicking and dragging the right border of a header. If there is no space available then resizing won't be possible (i.e all columns already to their minimum size, typically when the table can't be displayed entirely).
+
+```html
+<px-data-table enable-column-resize table-data="{{data}}"></px-data-table>
+```
+
+
 ### Events
 
 #### px-row-click
@@ -202,7 +234,13 @@ document.getElementById("mytable").addEventListener("px-select-all-click", funct
 
 ### Functions
 
-No functions are exposed by px-data-table.
+#### hideColumn(columnName)
+
+Takes a column name as parameter and hides the matching column.
+
+#### showColumn(columnName)
+
+Takes a column name as parameter and shows the matching column if hidden.
 
 <br />
 <hr />
@@ -326,6 +364,16 @@ multiple datatables with different sorting functions.
 <px-data-table-column sort-function-name="temperatureDataTableCustomFunctions.sortByEmailDomain" ...></px-data-table-column>
 ```
 
+##### hide
+
+*Type:* **Boolean** - (*Optional*) - *Default:* false
+
+use this attribute to hide the column.
+
+```html
+<px-data-table-column hide ...></px-data-table-column>
+```
+
 ### Events
 
 No events are fired by px-data-table-column.
@@ -392,4 +440,4 @@ $ grunt devmode
 
 ## Known Issues
 
-Please use [Github Issues](https://github.com/PredixDev/COMPONENT/issues) to submit any bugs you might find.
+Please use [Github Issues](https://github.com/PredixDev/px-data-table/issues) to submit any bugs you might find.

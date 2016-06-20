@@ -1,8 +1,8 @@
 {
   "name": "px-functions-design",
-  "version": "0.3.2",
+  "version": "0.2.6",
   "description": "Sass functions for Predix Experience",
-  "private": false,
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

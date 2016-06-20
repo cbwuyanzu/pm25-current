@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="px-range-field.html"/>
 
-<script src="../moment/moment.js"></script>
+<link rel="import" href="px-moment.html"/>
 
 <!--
 Component with all the date/time range fields which are displayed in the range picker.
@@ -119,16 +119,15 @@ Component with all the date/time range fields which are displayed in the range p
     behaviors: [validate],
     _allFieldsValid: function (vsd, vst, ved, vet) {
       //this checks that all fields are valid
-      console.log('kick off allfieldsvalid');
       this.set('allFieldsValid', (vsd && vst && ved && vet) );
     },
 
     _updateFromWorkingCopy: function() {
-      this.set('fromWorkingCopy', moment(this.from));
+      this.set('fromWorkingCopy', this.from.clone());
     },
 
     _updateToWorkingCopy: function() {
-      this.set('toWorkingCopy', moment(this.to));
+      this.set('toWorkingCopy', this.to.clone());
     },
 
     _toggleErrorClasses: function(isError) {

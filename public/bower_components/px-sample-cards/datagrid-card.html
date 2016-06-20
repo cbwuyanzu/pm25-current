@@ -4,7 +4,7 @@
 
 <dom-module id="datagrid-card">
   <template>
-    <px-card header-text="pm2.5 in shanghai">
+    <px-card header-text="Datagrid">
       <px-data-table filterable selectable table-data="{{data}}"></px-data-table>
     </px-card>
   </template>
@@ -17,8 +17,8 @@
        * get data url from context property therefore this card can be resuable
        */
       var self = this;
-      if (this.context.urls){
-          this.getData('/api/datagrid-service/datagrid').then(function (data) {
+      if (this.context.urls && this.context.urls['datagrid-data']){
+          this.getData(this.context.urls['datagrid-data']).then(function (data) {
               self.data = data;
           });
       }

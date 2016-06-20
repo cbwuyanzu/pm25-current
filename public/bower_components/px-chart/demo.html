@@ -40,18 +40,18 @@
 
   <h1>Full Configuration Chart</h1>
 
-  <px-chart tooltip-type="condensed" series-events-width="1">
+  <px-chart tooltip-type="condensed" series-events-width="1" zoom-type="xy" zoom-controls="hidecontrols">
     <px-chart-controls data-controls show-date-range="true" display-options='{ "displayType": "normal","submitButtonText": "Update", "submitButtonIcon": "icon-arrow-right" }'></px-chart-controls>
     <px-chart-yaxis title='{"text": "Left Axis"}' id="firstAxis" offset="0"></px-chart-yaxis>
     <px-chart-yaxis title='{"text": "Right Axis"}' id="anotherAxis" opposite="true" offset="-2.5"></px-chart-yaxis>
-    <px-chart-series-line id="delta-egt-cruise" axis-id="firstAxis" upper-threshold="30.5" lower-threshold="6.25">
+    <px-chart-series-line id="delta-egt-cruise" axis-id="firstAxis" upper-threshold="30.5" lower-threshold="6.25" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/delta-egt-cruise.json"
+        url="../px-demo-data/demo-data/aviation/delta-egt-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-line>
-    <px-chart-series-line id="fan-vibration-cruise" axis-id="anotherAxis">
+    <px-chart-series-line id="fan-vibration-cruise" axis-id="anotherAxis" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-line>
   </px-chart>
@@ -70,9 +70,20 @@
 <section class="simple-chart u-mb+">
   <h1>Line series</h1>
   <px-chart>
-    <px-chart-series-line id="fan-vibration-cruise">
+    <px-chart-series-line id="fan-vibration-cruise" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+        handle-as="json"></iron-ajax>
+    </px-chart-series-line>
+  </px-chart>
+</section>
+
+<section class="simple-chart u-mb+">
+  <h1>Line series with HC Tooltip</h1>
+  <px-chart tooltip-kind='hc'>
+    <px-chart-series-line id="fan-vibration-cruise" units="Hz">
+      <iron-ajax
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-line>
   </px-chart>
@@ -81,9 +92,9 @@
 <section class="scatter u-mb+">
   <h1>Scatter series</h1>
   <px-chart type="scatter">
-    <px-chart-series-scatter id="fan-vibration-cruise">
+    <px-chart-series-scatter id="fan-vibration-cruise" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-scatter>
   </px-chart>
@@ -92,19 +103,19 @@
 <section class="bar u-mb+">
   <h1>Bar series</h1>
   <px-chart type="bar">
-    <px-chart-series-bar id="fan-vibration-cruise">
+    <px-chart-series-bar id="fan-vibration-cruise" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-bar>
-    <px-chart-series-bar id="fan-vibration-cruise2">
+    <px-chart-series-bar id="fan-vibration-cruise2" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise2.json"
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise2.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-bar>
-    <px-chart-series-bar id="core-vibe-rear-cruise">
+    <px-chart-series-bar id="core-vibe-rear-cruise" units="Hz">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/core-vibe-rear-cruise.json"
+        url="../px-demo-data/demo-data/aviation/core-vibe-rear-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-bar>
   </px-chart>
@@ -112,10 +123,10 @@
 
 <section class="histogram u-mb+">
   <h1>Histogram series</h1>
-  <px-chart type="histogram">
+  <px-chart type="histogram" tooltip-timestamp='hide'>
     <px-chart-series-histogram id="fan-vibration-cruise">
       <iron-ajax
-        url="/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
+        url="../px-demo-data/demo-data/aviation/fan-vibration-cruise.json"
         handle-as="json"></iron-ajax>
     </px-chart-series-histogram>
   </px-chart>
@@ -129,7 +140,7 @@
     Polymer.dom(document).querySelector('.full-config-example px-chart').addEventListener("refresh-series", function(evt) {
       if (evt.detail === "fan-vibration-cruise") {
         var ironAjaxEl = document.createElement('iron-ajax');
-        ironAjaxEl.url = '/bower_components/px-demo-data/demo-data/aviation/fan-vibration-cruise2.json';
+        ironAjaxEl.url = '../px-demo-data/demo-data/aviation/fan-vibration-cruise2.json';
         ironAjaxEl.handleAs = "json";
         ironAjaxEl.addEventListener('response', function(evt) {
           var tsChart = Polymer.dom(document).querySelector('.full-config-example px-chart');

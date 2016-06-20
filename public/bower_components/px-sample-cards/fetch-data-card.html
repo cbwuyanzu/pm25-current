@@ -35,6 +35,69 @@
         .temperature-box h1 {
             font-size: 32px;
         }
+
+        .summary-label {
+            color: white;
+            font-size: 17px;
+            margin: 0;
+            padding-top: 8px;
+            padding-bottom: 0;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .summary-value {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .summary-box {
+            padding-left: 50px !important;
+        }
+
+        .summary-uom {
+            color: lightgray;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .rmd-circle {
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            background: limegreen;
+            margin: 20px;
+        }
+
+        .rmd-legend {
+            padding-left: 20px !important;
+        }
+
+        .rmd-circle-green {
+            background: limegreen;
+        }
+
+        .rmd-circle-yellow {
+            background: yellow;
+        }
+
+        .rmd-circle-orange {
+            background: orange;
+        }
+
+        .rmd-circle-red {
+            background: red;
+        }
+
+        .rmd-circle-purple {
+            background: purple;
+        }
+
+        .rmd-circle-brown {
+            background: brown;
+        }
     </style>
     <template>
         <px-card header-text="PM 2.5 around GE">
@@ -63,27 +126,27 @@
             <div style="margin: auto">
                 <div style="float:left">
                     <div class="layout__item rmd-circle rmd-circle-green"></div>
-                    <div class="layout__item rmd-instruction">0-35</div>
+                    <div class="layout__item rmd-legend">0-35</div>
                 </div>
                 <div style="float:left">
                     <div class="layout__item rmd-circle rmd-circle-yellow"></div>
-                    <div class="layout__item rmd-instruction">36-75</div>
+                    <div class="layout__item rmd-legend">36-75</div>
                 </div>
                 <div style="float:left">
                     <div class="layout__item rmd-circle rmd-circle-orange"></div>
-                    <div class="layout__item rmd-instruction">76-115</div>
+                    <div class="layout__item rmd-legend">76-115</div>
                 </div>
                 <div style="float:left">
                     <div class="layout__item rmd-circle rmd-circle-red"></div>
-                    <div class="layout__item rmd-instruction">116-150</div>
+                    <div class="layout__item rmd-legend">116-150</div>
                 </div>
                 <div style="float:left">
                     <div class="layout__item rmd-circle rmd-circle-purple"></div>
-                    <div class="layout__item rmd-instruction">151-250</div>
+                    <div class="layout__item rmd-legend">151-250</div>
                 </div>
                 <div style="float:left">
                     <div class="layout__item rmd-circle rmd-circle-brown"></div>
-                    <div class="layout__item rmd-instruction">251-500</div>
+                    <div class="layout__item rmd-legend">251-500</div>
                 </div>
             </div>
         </div>

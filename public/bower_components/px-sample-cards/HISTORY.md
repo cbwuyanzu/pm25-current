@@ -1,3 +1,11 @@
+v0.4.1
+================
+* added oss_notice to bower ignore
+
+v0.4.0
+================
+* Upgrade to Polymer 1.4.0
+
 v0.2.17
 ================
 * removed bower_components from links

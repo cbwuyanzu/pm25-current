@@ -17,9 +17,19 @@
     - D3.js
     - window.px library
 
+    ## How to use
+
+    This behavior is not stand-alone. It must be used as a Polymer Behavior attached
+    to another component. In order to understand Polymer Behaviors you can read
+    about them on the
+    [Polymer Behaviors Documentation page](https://www.polymer-project.org/1.0/docs/devguide/behaviors.html)
+    or even watch a
+    [YouTube video by Rob Dodson](https://www.youtube.com/watch?v=YrlmieL3Z0k)
+    about them.
+
 */
 
-var pxSimpleChartCommonBehavior = {
+window.pxSimpleChartCommonBehavior = {
 
     /**
     * Private Properties
@@ -38,9 +48,9 @@ var pxSimpleChartCommonBehavior = {
     properties: {
 
         /**
-        * width
+        * sets the width of the component in pixels.
+        * @prop width
         *
-        * Format: String
         */
         width: {
             type: String,
@@ -49,9 +59,9 @@ var pxSimpleChartCommonBehavior = {
         },
 
         /**
-        * height
+        * sets the height of the component in pixels.
         *
-        * Format: String
+        * @prop height
         */
         height: {
             type: String,
@@ -62,8 +72,10 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * attached() Polymer fires this event automatically, we use it to define
+     * @method attached
+     * Polymer fires this event automatically, we use it to define
      * this.svg and initiate the component
+     *
     */
     attached: function() {
         this.svg = d3.select(this.$$("svg"));
@@ -71,7 +83,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _drawChart() removes previous chart, draws new chart. Debounced.
+     * @method _drawChart
+     * removes previous chart, draws new chart. Debounced.
     */
     _drawChart: function() {
         if(this.svg) {
@@ -84,7 +97,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _removeChart() removes previous chart contents. Debounced.
+     * @method _removeChart
+     * removes previous chart contents. Debounced.
     */
     _removeChart: function() {
         this.debounce('_removeChartDebounced', function() {
@@ -94,7 +108,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _removeChartDebounced() resizes the SVG element and clears any internal
+     * @method _removeChartDebounced
+     * resizes the SVG element and clears any internal
      * contents. This is necessary between redrawing the chart.
      * Depends on this.svg being a D3 selection of the chart's SVG element
     */
@@ -106,7 +121,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _addStyleScope() adds the style-scope class of the component to all SVG
+     * @method _addStyleScope
+     * adds the style-scope class of the component to all SVG
      * child nodes. This is necessary because Polymer, while applying the class
      * to child HTML elements, does not apply the class to child SVG elements
      *
@@ -117,18 +133,20 @@ var pxSimpleChartCommonBehavior = {
         if(this.svg[0] && this.svg[0][0]) {
             d3.selectAll(this.svg[0][0].childNodes)
                 .classed(this.is, true);
-        };
+        }
     },
-
+    /**
+     * @method _addStyleScopeToElement
+     * pass in a d3 selection and this function will ensure that
+     * polymer style-scope is applied
+     * @param {element} el
+    */
     _addStyleScopeToElement: function(el) {
-        // pass in a d3 selection and this function will ensure that
-        // polymer style-scope is applied
         el.classed(this.is, true);
     },
-
-
     /**
-     * _clearSVG() selects the SVG of the chart, shrinks it to 1px by 1px and
+     * @method _clearSVG
+     * selects the SVG of the chart, shrinks it to 1px by 1px and
      * empties it of child elements. This is necessary to do before drawing or
      * redrawing the chart.
      *
@@ -142,7 +160,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _getSeriesTotal() returns the sum of the values of a series
+     * @method _getSeriesTotal
+     * returns the sum of the values of a series
      *
      * @param {Array} series
      * @return {Number} sum
@@ -154,7 +173,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _getLongestSeries() returns the longest series
+     * @method _getLongestSeries
+     * returns the longest series
      * based on the array of series passed
      *
      * @param {Array} seriesArray
@@ -168,11 +188,12 @@ var pxSimpleChartCommonBehavior = {
         } catch(err) {
             console.log('_getLongestSeries error:', err);
             return 0;
-        };
+        }
     },
 
     /**
-     * _calculateTextSize() method returns the size of an SVG text element and
+     * @method _calculateTextSize
+     * method returns the size of an SVG text element and
      * its position relative to the viewport.
      *
      * The essential DOM function is getBoundingClientRect():
@@ -213,7 +234,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _calculateTextHeight() returns height of SVG text element
+     * @method _calculateTextHeight
+     * returns height of SVG text element
      *
      * @param {String} text
      * @param {String} className
@@ -234,7 +256,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _calculateTextWidth() returns width of SVG text element
+     * @method _calculateTextWidth
+     * returns width of SVG text element
      *
      * @param {String} text
      * @param {String} className
@@ -255,7 +278,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _reconcileValue() reconcile the incoming value on an element's attribute
+     * @method _reconcileValue
+     * reconcile the incoming value on an element's attribute
      * This is necessary because some values may come in as one type but
      * need to be interpreted as another type
      *
@@ -283,13 +307,14 @@ var pxSimpleChartCommonBehavior = {
                     return parseInt(value);
                 } else {
                     return value;
-                };
+                }
                 break;
-        };
+        }
     },
 
     /**
-     * _ensureMinimum() ensures that a Number is equal to or greater than a min
+     * @method _ensureMinimum
+     * ensures that a Number is equal to or greater than a min
      *
      * @param {Number} value
      * @param {Number} min
@@ -300,7 +325,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _reconcileWidth() reconciles the value assigned to width
+     * @method _reconcileWidth
+     * reconciles the value assigned to width
      *
      * @param {Number} value
      * @return {Number} width
@@ -319,12 +345,13 @@ var pxSimpleChartCommonBehavior = {
                 + '. The default value of '
                 + this.defaultWidth
                 + ' has been assigned to the chart.');
-        };
+        }
         return width;
     },
 
     /**
-     * _reconcileHeight() reconciles the value assigned to height
+     * @method _reconcileHeight
+     * reconciles the value assigned to height
      *
      * @param {Number} value
      * @return {Number} width
@@ -343,12 +370,13 @@ var pxSimpleChartCommonBehavior = {
                 + '. The default value of '
                 + this.defaultHeight
                 + ' has been assigned to the chart.');
-        };
+        }
         return height;
     },
 
     /**
-     * _reconcileDimensionValue() reconciles the value assigned to height or width
+     * @method _reconcileDimensionValue
+     * reconciles the value assigned to height or width
      *
      * @param {Number} value
      * @param {Number} defaultValue
@@ -357,11 +385,12 @@ var pxSimpleChartCommonBehavior = {
     */
     _reconcileDimensionValue: function(value, defaultValue, type) {
         var value = this._reconcileValue(value, defaultValue);
-        return value === 'auto' ? this._getAutoValue(type) : parseInt(value);
+        return (value === 'auto') ? this._getAutoValue(type) : parseInt(value);
     },
 
     /**
-     * _getAutoValue() returns the 'automatic' value for height or width based on
+     * @method _getAutoValue
+     * returns the 'automatic' value for height or width based on
      * parent node dimensions
      *
      * @param {Number} type
@@ -378,7 +407,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _getElementPadding() returns the padding of an element's computed style
+     * @method _getElementPadding
+     * returns the padding of an element's computed style
      *
      * @param {HTML Object} element
      * @return {Object} padding object
@@ -394,7 +424,8 @@ var pxSimpleChartCommonBehavior = {
     },
 
     /**
-     * _setDimensions() sets the dimensions of the component's `this.widthValue`
+     * @method _setDimensions
+     * sets the dimensions of the component's `this.widthValue`
      * and `this.heightValue`
      *
     */
@@ -408,8 +439,7 @@ var pxSimpleChartCommonBehavior = {
             window.addEventListener('resize', function() {
                 that._drawChart();
             });
-        };
+        }
     }
-
 };
 </script>

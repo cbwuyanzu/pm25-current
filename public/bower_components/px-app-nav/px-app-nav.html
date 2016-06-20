@@ -32,7 +32,11 @@ Nav bar / drawer for applications
 
   <template>
     <nav role="navigation">
-      <button class="btn btn--bare btn--svg" on-click="toggleNav"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="291 489.4 20 16"><path fill="#ffffff" d="M291 489.4v4h20v-4h-20zm0 10h20v-4h-20v4zm0 6h20v-4h-20v4z"/></svg></button>
+      <button class="btn btn--bare btn--svg" on-click="toggleNav">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="291 489.4 20 16">
+          <path fill="#ffffff" d="M291 489.4v4h20v-4h-20zm0 10h20v-4h-20v4zm0 6h20v-4h-20v4z"/>
+        </svg>
+      </button>
       <ul id="navitemlist" class="navbar__item list-bare">
         <template is="dom-repeat" items="{{navItems}}" as="navitem">
           <li>
@@ -44,7 +48,6 @@ Nav bar / drawer for applications
                 </li>
               </template>
             </ul>
-
           </li>
         </template>
       </ul>
@@ -98,18 +101,30 @@ Nav bar / drawer for applications
         value: 'path',
         type: String
       },
-
       /**
        * Whether the navigation is expanded. Reflected to an attribute (reflectToAttribute: true) so the application can
        * bind to it and maintain state as needed.
        *
-       * @type {Boolean}
+       * @type {String}
        * @default [true]
        */
       navExpanded: {
+        value: "true",
+        type: String,
+        reflectToAttribute: true
+      },
+
+      /**
+       * Internal representation of navExpanded as a Boolean because boolean values cannot
+       * be passed into Polymer elements as strings "false"
+       *
+       * @type {Boolean}
+       * @default [true]
+       */
+      _navExpanded: {
         value: true,
         type: Boolean,
-        reflectToAttribute: true
+        computed: "_computeNavExpanded(navExpanded)"
       },
 
       /**
@@ -177,12 +192,54 @@ Nav bar / drawer for applications
        }, this);
     },
 
+    _computeNavExpanded: function() {
+      // ensure that internal representation matches external property
+      if(this.navExpanded === "false") {
+        return false;
+      } else if(this.navExpanded === "true") {
+        return true;
+      } else {
+        return true;
+      }
+    },
+
+    _checkNavExpandedState: function() {
+      if(this._navExpanded) {
+        this.debounce('checkNav', function() {
+          this._expandNav();
+        }, 100);
+      } else {
+        this.debounce('checkNav', function() {
+          this._contractNav();
+        }, 100);
+      };
+    },
+
+    _checkMediaMatches: function(matches) {
+      if (matches) {
+        // width is less than 63.9rem in width
+        if (this._navExpanded) {
+          this._navExpanded = false;
+          this._checkNavExpandedState();
+        }
+      } else {
+        // width is greater than 63.9rem
+        if (!this._navExpanded) {
+          this._navExpanded = true;
+          this._checkNavExpandedState();
+        }
+      };
+    },
+
     /**
      * Parse navItemsStrings and navItemsPaths to create unified navItems
      */
     ready: function() {
-      //check to see if navitems have been initialised.
 
+      this._checkNavExpandedState();
+      // this._checkNavExpanded();
+
+      //check to see if navitems have been initialised.
       if (this.navItems && (this.navItems.length > 0 && !this.navItems[0].href)){
         this.navItems.forEach(this._computeHref, this);
         this.navItems.forEach(this._computeIcon);
@@ -190,33 +247,21 @@ Nav bar / drawer for applications
         this._potentiallyAdjustAccordion();
       };
 
-      var media = window.matchMedia('screen and (max-width: 63.9rem)');
-      if (media.matches) {
-        this.toggleNav();
-      };
+      this._media = window.matchMedia('screen and (max-width: 63.9rem)');
+      // this._checkMediaMatches(this._media.matches);
+
       this.markSelected(window.location.href);
 
-      var self = this;
+      var _this = this;
 
       // add listener on screen width change
-      media.addListener(function(data) {
-        if (data.matches) {
-          // width is less than 63.9rem in width
-          if (self.navExpanded) {
-            self.toggleNav();
-          }
-        }
-        else {
-          // width is greater than 63.9rem
-          if (!self.navExpanded) {
-            self.toggleNav();
-          }
-        }
+      this._media.addListener(function(data) {
+        _this._checkMediaMatches(data.matches);
       });
 
       // add listener for history change event (back button)
       window.addEventListener('popstate', function(event) {
-        self.markSelected(window.location.href);
+        _this.markSelected(window.location.href);
       });
 
     },
@@ -236,43 +281,50 @@ Nav bar / drawer for applications
       }
       var href = el.getAttribute("href");
       this.markSelected(href);
-      var subnavEle = Polymer.dom(evt.currentTarget.parentElement).querySelector('ul');
-      this._animateMenuItem(subnavEle);
     },
 
-    _animateMenuItem: function(subnavEle){
-      var hidden = subnavEle.classList.contains('visuallyhidden'),
-          allSubNavSpans = Polymer.dom(subnavEle).querySelectorAll("span"),
-          self = this,
-          navToHide,
-          navToHideSpans,
-          allSubNavs = Polymer.dom(this.$.navitemlist).querySelectorAll("ul"),
-          openAnimation;
-
-      for (var i=0; i<allSubNavs.length; i++) {
-        if (allSubNavs[i] === subnavEle && !allSubNavs[i].classList.contains('visuallyhidden')){
-          navToHide = allSubNavs[i];
+    _closeOpenSubnav: function(openUl) {
+      // find open subnavs and close them
+      var closeAnimation = null;
+      var uls = Polymer.dom(this.$.navitemlist).querySelectorAll("ul");
+      for (var i=0; i<uls.length; i++) {
+        var ulIsHidden = uls[i].classList.contains('visuallyhidden');
+        if(!ulIsHidden && uls[i] !== openUl){
+          navToHide = uls[i];
           navToHideSpans = Polymer.dom(navToHide).querySelectorAll("span");
+          closeAnimation = this._closeAccordionEffectAnimation(navToHide, navToHideSpans);
         }
-      }
-      if (navToHide){
-        openAnimation = new SequenceEffect([
-                              this._closeAccordionEffectAnimation(navToHide, navToHideSpans),
-                              this._openAccordionEffectAnimation(subnavEle, allSubNavSpans)
-                            ]);
-      } else if (!hidden){
-        openAnimation = this._closeAccordionEffectAnimation(subnavEle, allSubNavSpans);
-      } else{
-        openAnimation = this._openAccordionEffectAnimation(subnavEle, allSubNavSpans);
+      };
+      return closeAnimation;
+    },
 
+    _newAnimateMenuItem: function(navElement) {
+      var _this = this;
+      var subnavUl = Polymer.dom(navElement.parentElement).querySelector('ul');
+      var ulIsHidden = subnavUl.classList.contains('visuallyhidden');
+      var subnavSpans = Polymer.dom(subnavUl).querySelectorAll("span");
+      var openAnimation = null;
+      var animations = [];
+      // returns null if no subnavs are open
+      if(ulIsHidden) {
+        var openAnimation = this._openAccordionEffectAnimation(subnavUl, subnavSpans);
+      };
+      var closeAnimation = this._closeOpenSubnav(subnavUl);
+      if(closeAnimation) {
+        animations.push(closeAnimation);
       }
+      if(openAnimation) {
+        animations.push(openAnimation);
+      }
+      var animation = new SequenceEffect(animations);
 
-      var accordionAnimationPlayer = document.timeline.play(openAnimation);
+      // play the animations
+      var accordionAnimationPlayer = document.timeline.play(animation);
 
       accordionAnimationPlayer.addEventListener('finish', function(){
-        self._navResized();
-        if(!self.navExpanded){
-          self.toggleNav();
+        _this._navResized();
+        if(!_this._navExpanded){
+          _this.toggleNav();
         }
       });
 
@@ -316,7 +368,7 @@ Nav bar / drawer for applications
       if (this.navItems){
         for (var i = 0; i < this.navItems.length; i++) {
           var item = this.navItems[i];
-          item.selected = item[this.pathKey] === resolvedPath;
+          item.selected = (item[this.pathKey] === resolvedPath);
           item.subSelected = false;
           item.class = item.selected ? "selected" : "";
           if (item.subitems) {
@@ -331,10 +383,16 @@ Nav bar / drawer for applications
               item.subSelected = subitem.selected ? true : item.subSelected;
             }, this);
           }
-          this.toggleClass("selected", item.selected, Polymer.dom(topLevelNavElems[i]).querySelector('a'));
-          this.toggleClass("subselected", item.subSelected, Polymer.dom(topLevelNavElems[i]).querySelector('a'));
+          var topLevelLink = Polymer.dom(topLevelNavElems[i]).querySelector('a');
+          this.toggleClass("selected", item.selected, topLevelLink);
+          this.toggleClass("subselected", item.subSelected, topLevelLink);
+
+          if( (item.subSelected || item.selected ) && typeof topLevelNavElems[i] !== 'undefined') {
+            this._newAnimateMenuItem(topLevelNavElems[i].querySelector('a'));
+          }
         }
       }
+
     },
 
     _setSubNavVisibility: function(){
@@ -413,12 +471,41 @@ Nav bar / drawer for applications
       return new KeyframeEffect(el, [{ width: '56px' }, { width: '219px' }], 200);
     },
 
-    _keyframeToggleClass: function(el, className) {
+    _keyframeRemoveClass: function(el, className) {
+      return new KeyframeEffect(el, function() {
+        el.classList.remove(className);
+      }, { duration: 0, fill: 'forwards' })
+    },
+
+    _keyframeRemoveClassAll: function(els, className) {
+      _this = this;
+      return new GroupEffect(els.map(function(el) {
+        return _this._keyframeRemoveClass(el, className);
+      }));
+    },
+
+    _keyframeAddClass: function(el, className) {
+      return new KeyframeEffect(el, function() {
+        el.classList.add(className);
+      }, { duration: 0, fill: 'forwards' })
+    },
+
+    _keyframeAddClassAll: function(els, className) {
+      _this = this;
+      return new GroupEffect(els.map(function(el) {
+        return _this._keyframeAddClass(el, className);
+      }));
+    },
+
+    _keyframeToggleClass: function(el, className, applyClass) {
       return new KeyframeEffect(el, function(tf) {
         if (tf == null) {
           return;
         } else {
-          el.classList.toggle(className);
+          if(!applyClass) {
+            applyClass = null;
+          };
+          el.classList.toggle(className, applyClass);
         };
       }, { duration: 0, fill: 'forwards' })
     },
@@ -442,12 +529,12 @@ Nav bar / drawer for applications
 
     _closeAccordionEffectAnimation: function(mainEl, textEls){
       var _this = this;
-      //animate close the open accordion
+      // animate close the open accordion
       return new SequenceEffect([
         _this._keyframeFadeOutAll(textEls),
-        _this._keyframeToggleClassAll(textEls, 'visuallyhidden'),
+        _this._keyframeAddClassAll(textEls, 'visuallyhidden'),
         _this._keyframeContractAccordian(mainEl),
-        _this._keyframeToggleClassAll(textEls, 'visuallyhidden')
+        _this._keyframeAddClass(mainEl, 'visuallyhidden'),
       ]);
     },
 
@@ -467,18 +554,18 @@ Nav bar / drawer for applications
       var _this = this;
       return new SequenceEffect([
         _this._keyframeFadeOutAll(textEls),
-        _this._keyframeToggleClass(navEl, 'navbar--text-hidden', !navEl.navExpanded),
+        _this._keyframeToggleClass(navEl, 'navbar--text-hidden', true),
         _this._keyframeContractWidth(navEl),
-        _this._keyframeToggleClass(navEl, 'navbar--collapsed', !navEl.navExpanded)
+        _this._keyframeToggleClass(navEl, 'navbar--collapsed', true)
       ]);
     },
 
     _expandNavAnimation: function(navEl, textEls) {
       var _this = this;
       return new SequenceEffect([
-        _this._keyframeToggleClass(navEl, 'navbar--collapsed', !navEl.navExpanded),
+        _this._keyframeToggleClass(navEl, 'navbar--collapsed', false),
         _this._keyframeExpandWidth(navEl),
-        _this._keyframeToggleClass(navEl, 'navbar--text-hidden', !navEl.navExpanded),
+        _this._keyframeToggleClass(navEl, 'navbar--text-hidden', false),
         _this._keyframeFadeInAll(textEls)
       ]);
     },
@@ -488,6 +575,7 @@ Nav bar / drawer for applications
     },
 
     _expandNav: function() {
+      this.navExpanded = 'true';
       this.fire('nav-expanding');
       var navAnimation = this._expandNavAnimation(this, this._getTextEls());
       this.ani = document.timeline.play(navAnimation);
@@ -504,6 +592,7 @@ Nav bar / drawer for applications
 
     _contractNav: function() {
       //raise event we're about to close.
+      this.navExpanded = 'false';
       this.fire('nav-collapsing');
       this.navContracting = true;
       var navAnimation = this._contractNavAnimation(this, this._getTextEls());
@@ -519,6 +608,14 @@ Nav bar / drawer for applications
       }.bind(this));
     },
 
+    _toggleNavExpanded: function() {
+      if(this.navExpanded === 'true') {
+        this.navExpanded = 'false';
+      } else {
+        this.navExpanded = 'true';
+      }
+    },
+
     /**
      * Called when the nav expander control is clicked.
      *
@@ -526,12 +623,8 @@ Nav bar / drawer for applications
      * @private
      */
     toggleNav: function(evt){
-      this.navExpanded = !this.navExpanded;
-      if(!this.navExpanded) {
-        this._contractNav();
-      } else {
-        this._expandNav();
-      };
+      this._toggleNavExpanded();
+      this._checkNavExpandedState();
     }
 
   });

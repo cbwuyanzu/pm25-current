@@ -129,19 +129,12 @@ module.exports = function(grunt) {
 
         // Bump task - https://www.npmjs.com/package/grunt-bump
         bump: {
-            options: {
-                files: ['package.json'],
-                updateConfigs: [],
-                commit: true,
-                commitMessage: 'Release v%VERSION%',
-                commitFiles: ['package.json'],
-                createTag: true,
-                tagName: 'v%VERSION%',
-                tagMessage: 'Version %VERSION%',
-                push: true,
-                pushTo: 'origin',
-                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
-            }
+          options:{
+            files: ['bower.json', 'package.json'],
+            updateConfigs: [],
+            commitFiles: ['package.json', 'bower.json'],
+            push: false
+          }
         },
 
         // Concat task - https://www.npmjs.com/package/grunt-contrib-concat
@@ -165,11 +158,37 @@ module.exports = function(grunt) {
                 src: '<%= config.src %>/*.js',
                 dest: '<%= config.dist %>/<%= pkg.name %>.min.js'
             }
+        },
+
+        insert: {
+          insertpxjs:{
+            src: "dist/px.min.js",
+            dest: "dist/px-library.html",
+            match: "!!px.js script goes here!!"
+          }
+        },
+
+        copy: {
+          copypxtemplate: {
+            src: "src/_px-library.html",
+            dest: "dist/px-library.html"
+          }
         }
+
     });
+    grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-insert');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('dist', ['clean:build', 'jshint:src', 'uglify']);
     grunt.registerTask('test', ['jshint:test', 'clean:test', 'karma']);
-    //grunt.registerTask('docs', ['dist', 'ngdocs', 'connect:docs']);
-    grunt.registerTask('default', ['test', 'dist']);
+
+    // Default task.
+    grunt.registerTask('default', 'Basic build', [
+      'test',
+      'dist',
+      'copy',
+      'insert'
+    ]);
+
 };

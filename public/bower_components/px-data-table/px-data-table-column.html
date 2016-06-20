@@ -7,6 +7,13 @@ Element that defines a columns in a data table.
 
 @demo demo.html
 -->
+
+<dom-module id="px-data-table-column">
+  <template>
+    <content id="contentNode"></content>
+  </template>
+</dom-module>
+
 <script>
   Polymer({
     is: "px-data-table-column",
@@ -60,6 +67,18 @@ Element that defines a columns in a data table.
        * @default false
        */
       sortable: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * If column is editable.
+       *
+       *      <px-data-table-column editable ...></px-data-table-column>
+       *
+       * @default false
+       */
+      editable: {
         type: Boolean,
         value: false
       },
@@ -132,8 +151,34 @@ Element that defines a columns in a data table.
       ellipsisClipPosition: {
         type: String,
         value: "right"
+      },
+      dropdownItems:{
+        type: Array,
+        value: function() {return [];},
+        notify: true
+      },
+      /**
+       * Whether the column should be hidden
+       *
+       */
+      hide: {
+        type: Boolean,
+        value: false
+      },
+      _highLightElLoadedCount: {
+        type: Number,
+        value: 0
       }
-
+    },
+    validate: function(value){
+      var validationEl = Polymer.dom(this).querySelector('px-validation');
+      if(validationEl){
+        return validationEl.validate(value);
+      }
+      else{
+        // no validation specified - always return 'passedValidation : true'
+        return {passedValidation: true};
+      }
     }
   });
 </script>
