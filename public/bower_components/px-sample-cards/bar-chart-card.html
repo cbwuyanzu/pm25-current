@@ -4,10 +4,10 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html" />
 <script type="text/javascript" src="../px/dist/px.min.js"></script>
 <script src="../moment/min/moment.min.js"></script>
+
 <dom-module id="bar-chart-card">
     <link rel="import" type="css" href="css/px-sample-cards.css" />
     <template>
-        </px-card>
         <px-card header-text="{{context.name}}">
             <button class="btn btn--large btn--primary" on-click="reDraw">Refresh Data</button>
             <px-chart type="bar" id="barChart">
