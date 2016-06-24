@@ -47,7 +47,8 @@ define([
             tabs: [
                 {icon: 'fa-tachometer', state: 'dashboards', label: 'GE Campus'},
                 {icon: 'fa-bar-chart', state: 'shanghai', label: 'Shanghai'},
-                {icon: 'fa-file-o', state: 'blankpage', label: 'Developer',}
+                {icon: 'fa-map', state: 'map', label: 'map'},
+                {icon: 'fa-file-o', state: 'blankpage', label: 'Developer'}
             ]
         };
 

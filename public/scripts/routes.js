@@ -47,6 +47,10 @@ define(['angular', 'angular-ui-router'], function(angular) {
                 url: '/shanghai',
                 templateUrl: 'views/shanghai.html',
                 controller: 'Pm25Ctrl'
+            })
+            .state('map',{
+                url:'/map',
+                templateUrl:'views/map.html'
             });
 
 
