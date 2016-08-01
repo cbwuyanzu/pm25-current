@@ -26,12 +26,12 @@ var config = {
       url: 'https://predix-views.run.aws-usw02-pr.ice.predix.io/v1$1',
       instanceId: 'cca889f8-128e-4640-92f5-51df2325bf5d'
     },
-    '/api/inquiry-service(.*)': {
-      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/yearly_data/sensor_id$1',
+    '/api/inquiry-hourly-service(.*)': {
+      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/hourly_data/sensor_id$1',
       instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
     },
-    '/api/inquiry-weekly-service(.*)': {
-      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/weekly_data/sensor_id$1',
+    '/api/inquiry-daily-service(.*)': {
+      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/daily_data/sensor_id$1',
       instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
     },
     '/api/lastest(.*)': {

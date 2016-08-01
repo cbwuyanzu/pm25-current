@@ -4,19 +4,19 @@ define(['angular', './sample-module'], function(angular, controllers) {
         var points = [{
             id: 0,
             name: 'CTP indoor',
-            url: '/api/inquiry-weekly-service/61726'
+            url: '/api/inquiry-daily-service/61726'
         }, {
             id: 1,
             name: 'CTP outdoor',
-            url: '/api/inquiry-weekly-service/61728'
+            url: '/api/inquiry-daily-service/61728'
         }, {
             id: 2,
             name: 'CTP indoor',
-            url: '/api/inquiry-service/61726'
+            url: '/api/inquiry-hourly-service/61726'
         }, {
             id: 3,
             name: 'CTP outdoor',
-            url: '/api/inquiry-service/61728'
+            url: '/api/inquiry-hourly-service/61728'
         }];
         var newcontext = {
             name: 'Daily pm 2.5',

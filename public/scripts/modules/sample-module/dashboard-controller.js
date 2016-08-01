@@ -38,8 +38,8 @@ define(['angular', './sample-module'], function (angular, controllers) {
                     'datagrid-data': '/sample-data/datagrid-data.json'
                 },
                 'child': {
-                    'core-vibe-rear-cruise': '/api/inquiry-service/1141A',
-                    'delta-egt-cruise': '/api/inquiry-service/1142A'
+                    'core-vibe-rear-cruise': '/api/inquiry-hourly-service/1141A',
+                    'delta-egt-cruise': '/api/inquiry-hourly-service/1142A'
                 },
                 'child2': {
                     'core-vibe-rear-cruise': '/sample-data/core-vibe-rear-cruise0.json',

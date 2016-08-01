@@ -74,7 +74,7 @@
              * that is passed into time series card.
              * */
             if (this.context.url) {
-                this.getData('/api/inquiry-service/1146A' + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
+                this.getData('/api/inquiry-hourly-service/1146A' + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
                     for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
                         predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
                     }
@@ -130,7 +130,7 @@
             var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
 
             if (this.context.url) {
-                this.getData('/api/inquiry-service/' + this.context.url + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
+                this.getData('/api/inquiry-hourly-service/' + this.context.url + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
                     for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
                         predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
                     }
