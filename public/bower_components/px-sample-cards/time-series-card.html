@@ -82,7 +82,7 @@
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
                     predixTimeSeriesData.tags[0].results[0].groups = [];
-                    predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                    predixTimeSeriesData.tags[0].name = '上海青浦淀山湖';
                     var firstSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
                     firstSeries.id = firstSeries.name;
                     firstSeries.axisId = 'firstAxis';
@@ -130,6 +130,35 @@
             var pxTimeSeriesDataTransformer = new px.timeseries.dataTransformer();
 
             if (this.context.url) {
+                switch (this.context.url) {
+                    case '1141A':
+                        x = '上海普陀';
+                        break;
+                    case '1142A':
+                        x = '上海十五厂';
+                        break;
+                    case '1143A':
+                        var x = '上海虹口';
+                        break;
+                    case '1144A':
+                        var x = '上海徐汇上师大';
+                        break;
+                    case '1145A':
+                        var x = '上海杨浦四漂';
+                        break;
+                    case '1147A':
+                        var x = '上海静安监测站';
+                        break;
+                    case '1148A':
+                        var x = '上海浦东川沙';
+                        break;
+                    case '1149A':
+                        var x = '上海浦东新区监测站';
+                        break;
+                    case '1150A':
+                        var x = '上海浦东张江';
+                        break;
+                }
                 this.getData('/api/inquiry-hourly-service/' + this.context.url + '?starttime=1mm-ago').then(function(predixTimeSeriesData) {
                     for (var i = 0; i < predixTimeSeriesData.tags[0].results[0].values.length; i++) {
                         predixTimeSeriesData.tags[0].results[0].values[i][0] = self.toLocalTime(predixTimeSeriesData.tags[0].results[0].values[i][0]);
@@ -138,7 +167,7 @@
                         predixTimeSeriesData.tags[0].results[0].datapoints = predixTimeSeriesData.tags[0].results[0].values;
                     }
                     predixTimeSeriesData.tags[0].results[0].groups = [];
-                    predixTimeSeriesData.tags[0].name = predixTimeSeriesData.tags[0].results[0].attributes.site[0];
+                    predixTimeSeriesData.tags[0].name = x /*predixTimeSeriesData.tags[0].results[0].attributes.site[0]*/ ;
                     var secondSeries = pxTimeSeriesDataTransformer.transform(predixTimeSeriesData.tags)[0];
                     secondSeries.id = secondSeries.name;
                     secondSeries.axisId = "firstAxis";
