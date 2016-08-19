@@ -9,10 +9,10 @@ var config = {
    * Please update the following uaa configuration for your solution
    */
   uaa: {
-    clientId: 'gegege',
-    serverUrl: 'https://22d00b7a-388b-4b16-a142-56c99c8002fe.predix-uaa.run.aws-usw02-pr.ice.predix.io',
+    clientId: 'driver',
+    serverUrl: 'https://64382272-902f-4cf9-ae9f-7c729bb323bc.predix-uaa.run.aws-usw02-pr.ice.predix.io',
     defaultClientRoute: '/about',
-    base64ClientCredential: 'Z2VnZWdlOnF1YW5xdWFu'
+    base64ClientCredential: 'ZHJpdmVyOmdlZ2VnZQ=='
   },
   /**
    * --------- ADD YOUR SECURE ROUTES HERE ------------
@@ -22,24 +22,16 @@ var config = {
    * Note: Keep the /api in front of your services here to tell the proxy to add authorization headers.
    */
   proxy: {
-    '/api/view-service(.*)': {
-      url: 'https://predix-views.run.aws-usw02-pr.ice.predix.io/v1$1',
-      instanceId: 'cca889f8-128e-4640-92f5-51df2325bf5d'
-    },
-    '/api/inquiry-hourly-service(.*)': {
-      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/hourly_data/sensor_id$1',
+    '/api/inquiry-raw(.*)': {
+      url:'https://inquiry-driver-cdz.run.aws-usw02-pr.ice.predix.io/services/driver/raw_data/$1',
       instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
     },
-    '/api/inquiry-daily-service(.*)': {
-      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/daily_data/sensor_id$1',
+    '/api/inquiry-aggregated(.*)': {
+      url:'https://inquiry-driver-cdz.run.aws-usw02-pr.ice.predix.io/services/driver/daily_data/$1',
       instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
     },
-    '/api/lastest(.*)': {
-      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services/latest_data/sensor_id$1',
-      instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
-    },
-    '/api/datagrid-service(.*)': {
-      url:'https://cdz-inquiry-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/pm25services$1',
+    '/api/latest(.*)': {
+      url:'https://inquiry-driver-cdz.run.aws-usw02-pr.ice.predix.io/services/driver/latest_data/$1',
       instanceId: 'e9449d68-da92-4a36-b73a-660028f8e06e'
     }
   }

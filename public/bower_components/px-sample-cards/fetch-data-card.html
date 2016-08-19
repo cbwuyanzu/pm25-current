@@ -63,44 +63,12 @@
             font-weight: bold;
         }
 
-        .rmd-circle {
-            border-radius: 50%;
-            width: 15px;
-            height: 15px;
-            background: limegreen;
-            margin: 20px;
-        }
-
         .rmd-legend {
             padding-left: 20px !important;
         }
-
-        .rmd-circle-green {
-            background: limegreen;
-        }
-
-        .rmd-circle-yellow {
-            background: yellow;
-        }
-
-        .rmd-circle-orange {
-            background: orange;
-        }
-
-        .rmd-circle-red {
-            background: red;
-        }
-
-        .rmd-circle-purple {
-            background: purple;
-        }
-
-        .rmd-circle-brown {
-            background: brown;
-        }
     </style>
     <template>
-        <px-card header-text="PM 2.5 around GE">
+        <px-card header-text="Driver asset management">
             <div>
                 <button class="btn btn--large btn--primary" on-click="refreshData">Refresh Data</button>
             </div>
@@ -112,41 +80,31 @@
       </div> -->
         <div class="layout layout--right">
             <div class="layout__item u-1/6 summary-box" style="float:left">
-                <h4 class="summary-label caps">CTP indoor : </h4>
+                <h4 class="summary-label caps">Voltage in: </h4>
                 <div>
                     <span class="summary-value" style={{incolors}}>{{currentTemperature}}</span>
+                    <span class="summary-uom">V</span>
                 </div>
             </div>
             <div class="layout__item u-1/6 summary-box" style="float:left">
-                <h4 class="summary-label caps">CTP outdoor : </h4>
+                <h4 class="summary-label caps">Current in: </h4>
                 <div>
-                    <span class="summary-value" style={{outcolors}}>{{currentPm25Out}}</span>
+                    <span class="summary-value" style={{inIcolors}}>{{currentIn}}</span>
+                    <span class="summary-uom">mA</span>
                 </div>
             </div>
-            <div style="margin: auto">
-                <div style="float:left">
-                    <div class="layout__item rmd-circle rmd-circle-green"></div>
-                    <div class="layout__item rmd-legend">0-35</div>
+            <div class="layout__item u-1/6 summary-box" style="float:left">
+                <h4 class="summary-label caps">Voltage out: </h4>
+                <div>
+                    <span class="summary-value" style={{outcolors}}>{{currentPm25Out}}</span>
+                    <span class="summary-uom">V</span>
                 </div>
-                <div style="float:left">
-                    <div class="layout__item rmd-circle rmd-circle-yellow"></div>
-                    <div class="layout__item rmd-legend">36-75</div>
-                </div>
-                <div style="float:left">
-                    <div class="layout__item rmd-circle rmd-circle-orange"></div>
-                    <div class="layout__item rmd-legend">76-115</div>
-                </div>
-                <div style="float:left">
-                    <div class="layout__item rmd-circle rmd-circle-red"></div>
-                    <div class="layout__item rmd-legend">116-150</div>
-                </div>
-                <div style="float:left">
-                    <div class="layout__item rmd-circle rmd-circle-purple"></div>
-                    <div class="layout__item rmd-legend">151-250</div>
-                </div>
-                <div style="float:left">
-                    <div class="layout__item rmd-circle rmd-circle-brown"></div>
-                    <div class="layout__item rmd-legend">251-500</div>
+            </div>
+            <div class="layout__item u-1/6 summary-box" style="float:left">
+                <h4 class="summary-label caps">Current out: </h4>
+                <div>
+                    <span class="summary-value" style={{outIcolors}}>{{currentOut}}</span>
+                    <span class="summary-uom">mA</span>
                 </div>
             </div>
         </div>
@@ -159,10 +117,14 @@
         init: function() {
             this.getTemperature();
             this.getOutdoor();
+            this.getCurrentIn();
+            this.getCurrentOut();
         },
         refreshData: function() {
             this.getTemperature();
             this.getOutdoor();
+            this.getCurrentIn();
+            this.getCurrentOut();
         },
         getTemperature: function() {
             /**
@@ -171,7 +133,7 @@
              **/
             var self = this;
             // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-            this.getData('/api/lastest/61726').then(function(data) {
+            this.getData(this.context.urls[0].url).then(function(data) {
                 // following data structure from http://api.wunderground.com/
                 self.currentTemperature = data.tags[0].results[0].values[0][1];
                 self.incolors = self.getColor(self.currentTemperature);
@@ -189,7 +151,7 @@
              **/
             var self = this;
             // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
-            this.getData('/api/lastest/61728').then(function(data) {
+            this.getData(this.context.urls[1].url).then(function(data) {
                 // following data structure from  http://api.wunderground.com/
                 self.currentPm25Out = data.tags[0].results[0].values[0][1];
                 self.outcolors = self.getColor(self.currentPm25Out);
@@ -199,16 +161,51 @@
                 self.currentPm25Out = '--';
             });
         },
+        getCurrentIn: function() {
+            /**
+             * use card's getData api to get the temperature data
+             * using the URL from context
+             **/
+            var self = this;
+            // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
+            this.getData(this.context.urls[2].url).then(function(data) {
+                // following data structure from http://api.wunderground.com/
+                self.currentIn = data.tags[0].results[0].values[0][1];
+                self.inIcolors = self.getColor(self.currentIn);
+                // self.heiheihei = "summary-value";
+            }, function(reason) {
+                // on rejection
+                console.error('ERROR', reason);
+                self.currentIn = '--';
+            });
+        },
+        getCurrentOut: function() {
+            /**
+             * use card's getData api to get the temperature data
+             * using the URL from context
+             **/
+            var self = this;
+            // this.getData(this.context.urls['weather-data'],{headers: {'my-header-name': 'my-header-value'}}).then(function(data) {
+            this.getData(this.context.urls[3].url).then(function(data) {
+                // following data structure from  http://api.wunderground.com/
+                self.currentOut = data.tags[0].results[0].values[0][1];
+                self.outIcolors = self.getColor(self.currentOut);
+            }, function(reason) {
+                // on rejection
+                console.error('ERROR', reason);
+                self.currentOut = '--';
+            });
+        },
         getColor: function(value) {
-            if (value <= 35)
+            if (value <= 100)
                 return "color:limegreen";
-            if (value <= 75)
+            if (value <= 200)
                 return "color:yellow";
-            if (value <= 115)
+            if (value <= 300)
                 return "color:orange";
-            if (value <= 150)
+            if (value <= 400)
                 return "color:red";
-            if (value <= 250)
+            if (value <= 500)
                 return "color:purple";
             return "color:brown";
         },
